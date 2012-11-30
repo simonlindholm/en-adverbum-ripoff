@@ -16,8 +16,7 @@ public class Room {
 
 	public void handleInput(Game game, String input) {
 		for (Command c : commands) {
-			if (input.matches("^" + c.regex + "$")) {
-				c.perform(game);
+			if (c.matches(input) && c.maybePerform(input, game)) {
 				return;
 			}
 		}

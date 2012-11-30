@@ -1,7 +1,7 @@
 import org.codehaus.jackson.annotate.*;
 
 @JsonTypeName("msg")
-public class MsgCommand extends Command {
+public class MsgCommand extends SimpleCommand {
 	public String text, text2;
 	private boolean first = true;
 	public void perform(Game game) {
