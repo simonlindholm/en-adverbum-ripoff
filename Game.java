@@ -8,11 +8,16 @@ public class Game {
 		public String start;
 		public String initialText, magicText, giveupText;
 		public Map<String, Room> rooms;
+		public Map<String, String> items;
 	}
 
 	private Map<String, Room> rooms;
-	private Room currentRoom;
+	private Map<String, String> itemDescs;
 	private String magicText, giveupText;
+
+	// Player state
+	private Room currentRoom;
+	private ArrayList<String> inventory;
 
 	private boolean shouldExit = false;
 	public void signalExit() {
@@ -31,8 +36,41 @@ public class Game {
 		this.currentRoom.enter(this);
 	}
 
-	public void dropRoomThings() {
-		// TODO
+	public void dropEverything() {
+		for (String item : this.inventory) {
+			this.currentRoom.addItem(item);
+		}
+		this.inventory.clear();
+	}
+
+	public boolean currentRoomHasItem(String item) {
+		return this.currentRoom.hasItem(item);
+	}
+
+	public boolean tryDropItem(String item) {
+		if (!this.inventory.contains(item)) {
+			return false;
+		}
+		this.inventory.remove(item);
+		this.currentRoom.addItem(item);
+		return true;
+	}
+
+	public boolean tryPickItem(String item) {
+		if (!this.currentRoomHasItem(item)) {
+			return false;
+		}
+		this.currentRoom.removeItem(item);
+		this.inventory.add(item);
+		return true;
+	}
+
+	public boolean tryExamineItem(String item) {
+		if (!this.currentRoomHasItem(item) && !this.inventory.contains(item)) {
+			return false;
+		}
+		System.out.println(this.itemDescs.get(item));
+		return true;
 	}
 
 	void run() {
@@ -41,31 +79,35 @@ public class Game {
 			mapper.configure(Feature.ALLOW_COMMENTS, true);
 			Data d = mapper.readValue(new File("game.json"), Data.class);
 
-			System.out.println("");
+			System.out.println();
 			System.out.println(d.initialText);
 			System.out.println("\n---------------");
 
 			this.rooms = d.rooms;
 			this.magicText = d.magicText;
 			this.giveupText = d.giveupText;
+			this.itemDescs = d.items;
 
+			this.inventory = new ArrayList<String>();
 			this.goRoom(d.start);
 
 			InputStreamReader converter = new InputStreamReader(System.in);
 			BufferedReader in = new BufferedReader(converter);
 			while (true) {
+				System.out.println();
 				System.out.print("> ");
 				String input = in.readLine();
 				if (input == null) {
 					// Newline-terminate the prompt and exit on Ctrl+D.
-					System.out.println("");
+					System.out.println();
 					break;
 				}
 				input = input.toLowerCase();
 
 				this.currentRoom.handleInput(this, input);
-				if (this.shouldExit)
+				if (this.shouldExit) {
 					break;
+				}
 			}
 		}
 		catch (Exception e) {

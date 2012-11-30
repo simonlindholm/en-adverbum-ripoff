@@ -6,7 +6,10 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.*;
 	@JsonSubTypes.Type(value=MsgCommand.class, name="msg"),
 	@JsonSubTypes.Type(value=GoCommand.class, name="go"),
 	@JsonSubTypes.Type(value=AnyCommand.class, name="any"),
+	@JsonSubTypes.Type(value=DropCommand.class, name="drop"),
+	@JsonSubTypes.Type(value=PickCommand.class, name="pick"),
 	@JsonSubTypes.Type(value=GiveupCommand.class, name="giveup"),
+	@JsonSubTypes.Type(value=ExamineCommand.class, name="examine"),
 	@JsonSubTypes.Type(value=ConditionCommand.class, name="condition"),
 	@JsonSubTypes.Type(value=ExitCommand.class, name="exit")
 })

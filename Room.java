@@ -3,15 +3,27 @@ import java.util.*;
 public class Room {
 	public String name, desc, magic;
 	public ArrayList<Command> commands;
+	public ArrayList<String> items;
 
-	private boolean hasEntered;
 	public void enter(Game game) {
-		System.out.println("");
+		System.out.println();
 		if (this.magic != null) {
 			System.out.println(game.getMagicText(this.magic));
 		}
+
+		// Print with room name with either weird decoration or in bold (both work ok).
 		System.out.printf("\033[1m%s\033[0m\n", this.name);
 		System.out.println(this.desc);
+	}
+
+	public boolean hasItem(String item) {
+		return this.items.contains(item);
+	}
+	public void addItem(String item) {
+		this.items.add(item);
+	}
+	public void removeItem(String item) {
+		this.items.remove(item);
 	}
 
 	public void handleInput(Game game, String input) {
