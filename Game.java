@@ -4,7 +4,7 @@ import org.codehaus.jackson.JsonParser.*;
 import org.codehaus.jackson.map.ObjectMapper;
 
 public class Game {
-	private static class Data {
+	private static class JsonData {
 		public String start;
 		public String initialText, magicText, giveupText;
 		public Map<String, Room> rooms;
@@ -15,13 +15,15 @@ public class Game {
 	private Map<String, String> itemDescs;
 	private String magicText, giveupText;
 
+	// Game state
+	private boolean shouldExit = false;
+
 	// Player state
 	private Room currentRoom;
 	private ArrayList<String> inventory;
 	private int score;
 	private Set<String> wonConditions;
 
-	private boolean shouldExit = false;
 	public void signalExit() {
 		shouldExit = true;
 	}
@@ -48,9 +50,12 @@ public class Game {
 	public boolean currentRoomHasItem(String item) {
 		return this.currentRoom.hasItem(item);
 	}
+	public boolean inventoryHasItem(String item) {
+		return this.inventory.contains(item);
+	}
 
 	public boolean tryDropItem(String item) {
-		if (!this.inventory.contains(item)) {
+		if (!this.inventoryHasItem(item)) {
 			return false;
 		}
 		this.inventory.remove(item);
@@ -67,12 +72,8 @@ public class Game {
 		return true;
 	}
 
-	public boolean tryExamineItem(String item) {
-		if (!this.currentRoomHasItem(item) && !this.inventory.contains(item)) {
-			return false;
-		}
+	public void examineItem(String item) {
 		System.out.println(this.itemDescs.get(item));
-		return true;
 	}
 
 	public boolean tryWinCondition(String name) {
@@ -88,7 +89,7 @@ public class Game {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(Feature.ALLOW_COMMENTS, true);
-			Data d = mapper.readValue(new File("game.json"), Data.class);
+			JsonData d = mapper.readValue(new File("game.json"), JsonData.class);
 
 			System.out.println();
 			System.out.println(d.initialText);
