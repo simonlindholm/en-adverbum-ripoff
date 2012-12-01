@@ -3,7 +3,8 @@ import org.codehaus.jackson.annotate.*;
 
 @JsonTypeName("all")
 public class AllCommand extends Command {
-	public ArrayList<Command> list;
+	@JsonProperty
+	private ArrayList<Command> list;
 
 	public boolean maybePerform(String input, Game game) {
 		for (Command c : list) {

@@ -1,9 +1,13 @@
+import org.codehaus.jackson.annotate.*;
 import java.util.*;
 
 public class Room {
-	public String name, desc, itemsDesc, magic;
-	public ArrayList<Command> commands;
-	public ArrayList<String> items;
+	@JsonProperty
+	private String name, desc, itemsDesc, magic;
+	@JsonProperty
+	private ArrayList<Command> commands;
+	@JsonProperty
+	private ArrayList<String> items;
 
 	public void enter(Game game) {
 		if (this.magic != null) {

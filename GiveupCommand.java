@@ -2,7 +2,9 @@ import org.codehaus.jackson.annotate.*;
 
 @JsonTypeName("giveup")
 public class GiveupCommand extends SimpleCommand {
-	public String to;
+	@JsonProperty
+	private String to;
+
 	public void perform(Game game) {
 		System.out.println(game.getGiveupText());
 		game.dropEverything();

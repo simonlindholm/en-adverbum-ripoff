@@ -2,7 +2,8 @@ import org.codehaus.jackson.annotate.*;
 
 @JsonTypeName("examine")
 public class ExamineCommand extends TargettedCommand {
-	public String failure;
+	@JsonProperty
+	private String failure;
 
 	public boolean maybePerformWith(Game game, String target) {
 		if (target == null) {

@@ -2,9 +2,10 @@ import org.codehaus.jackson.annotate.*;
 
 @JsonTypeName("win-condition")
 public class WinConditionCommand extends SimpleCommand {
-	public String name;
-	public int points;
-	public String success, failure;
+	@JsonProperty
+	private String name, success, failure;
+	@JsonProperty
+	private int points;
 
 	public void perform(Game game) {
 		assert (this.success == null) == (this.failure == null) :

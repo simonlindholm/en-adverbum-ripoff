@@ -1,13 +1,16 @@
+import org.codehaus.jackson.annotate.*;
+import org.codehaus.jackson.map.*;
+import org.codehaus.jackson.*;
 import java.util.*;
 import java.io.*;
-import org.codehaus.jackson.JsonParser.*;
-import org.codehaus.jackson.map.ObjectMapper;
 
 public class Game {
 	private static class JsonData {
-		public String start;
-		public String initialText, magicText, giveupText;
+		@JsonProperty
+		public String start, initialText, magicText, giveupText;
+		@JsonProperty
 		public Map<String, Room> rooms;
+		@JsonProperty
 		public Map<String, String> items;
 	}
 
@@ -93,7 +96,8 @@ public class Game {
 	void run() {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(Feature.ALLOW_COMMENTS, true);
+			mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+			mapper.configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, false);
 			JsonData d = mapper.readValue(new File("game.json"), JsonData.class);
 
 			// (Hopefully) clear the screen, and print an introduction.

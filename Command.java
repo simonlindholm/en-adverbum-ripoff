@@ -16,7 +16,9 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.*;
 	@JsonSubTypes.Type(value=ExitCommand.class, name="exit")
 })
 public abstract class Command {
-	public String regex;
+	@JsonProperty
+	protected String regex;
+
 	public boolean matches(String input) {
 		return (this.regex == null || input.matches("^" + this.regex + "$"));
 	}

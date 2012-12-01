@@ -2,8 +2,10 @@ import org.codehaus.jackson.annotate.*;
 
 @JsonTypeName("condition")
 public class ConditionCommand extends Command {
-	public Command then, otherwise;
-	public String roomHasItem;
+	@JsonProperty
+	private Command then, otherwise;
+	@JsonProperty
+	private String roomHasItem;
 
 	private Command decide(Game game) {
 		if (this.roomHasItem != null && !game.currentRoomHasItem(this.roomHasItem)) {

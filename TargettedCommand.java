@@ -2,8 +2,10 @@ import java.util.regex.*;
 import org.codehaus.jackson.annotate.*;
 
 public abstract class TargettedCommand extends Command {
-	public int group;
-	public String thing;
+	@JsonProperty
+	protected int group;
+	@JsonProperty
+	protected String thing;
 
 	public abstract boolean maybePerformWith(Game game, String target);
 
