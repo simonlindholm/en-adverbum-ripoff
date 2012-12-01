@@ -1,7 +1,5 @@
 // TODO
-// points?
 // spara, ladda
-// implementera drop, pick
 {
 	"initialText": "Välkommen till denna anonyma Ad Verbum-rip off.\nFör (det varmt rekommenderade) originalspelet, se http://nickm.com/if/adverbum.html.",
 	"magicText": "\n\"HÖR UPP!\" ljuder en ihålig röst. \"Vet med dig att passage tillbaka är svårt för vissa, omöjligt för andra!\nOm du önskar teleportera dig - utan medhavda föremål - ut från detta stränga fängelse, använd det magiska ordet: %s!\"",
@@ -9,8 +7,11 @@
 	"start": "base",
 
 	"items": {
+		// XXX points
 		"sak": "Skum sak.",
-		"öl": "Örjans Önskeöl™. Öländskt."
+		"öl": "Örjans Önskeöl™. Öländskt.",
+		"ökenväxt": "Ödesdiger ökenväxt. Överdelen örtliknande, ömklig.",
+		"örjan": "Öga, öra. Örnnäsa. Ökänd överste."
 	},
 
 	"rooms": {
@@ -21,15 +22,15 @@
 			"items": [],
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Säg något!"},
-				{"regex": "säg hej", "type": "msg", "text": "Du hälsar artigt."},
+				{"regex": "sä[gj] hej", "type": "msg", "text": "Du hälsar artigt."},
 				{"regex": "avsluta|exit", "type": "exit"},
-				{"regex": "släpp( (.*))?", "type": "drop", "group": 2, "success": "Släppt.", "failure": "Släpp vad?"},
-				{"regex": "(tag?|plocka)( (.*))?", "type": "pick", "group": 3, "success": "Tagen.", "failure": "Plocka up vad?"},
-				{"regex": "(undersök|x)( (.*))?", "type": "examine", "group": 3, "failure": "Undersök vad?"},
-				{"regex": "gå väst(erut|vart)?", "type": "go", "to": "west"},
-				{"regex": "gå öst(erut|vart)?", "type": "go", "to": "east"},
-				{"regex": "gå nor(rut|dvart)", "type": "go", "to": "north"},
-				{"regex": "gå (söderut|sydvart)", "type": "go", "to": "south"},
+				{"regex": "(släpp|överge)( (.*))?", "type": "drop", "group": 3, "success": "Släppt.", "failure": "Släpp vad?"},
+				{"regex": "(tag?|plocka|överta)( (.*))?", "type": "pick", "group": 3, "success": "Tagen.", "failure": "Plocka up vad?"},
+				{"regex": "(undersök|x|kolla)( (.*))?", "type": "examine", "group": 3, "failure": "Undersök vad?"},
+				{"regex": "(gå )?väst(erut|vart)?", "type": "go", "to": "west"},
+				{"regex": "(gå )?öst(erut|vart)?", "type": "go", "to": "east"},
+				{"regex": "norr|nord|(gå )?nor(rut|dvart)", "type": "go", "to": "north"},
+				{"regex": "syd|(gå )?(söderut|sydvart)", "type": "go", "to": "south"},
 				{"type": "msg", "text": "Jag förstår inte."}
 			]
 		},
@@ -47,14 +48,17 @@
 					"then": {"type": "any", "list": [
 						{"regex": "shoppa sak|storhandla", "type": "pick", "thing": "sak", "success": "Storartat.", "failure": "<null>"},
 						{"regex": "shoppa( .*)?", "type": "msg", "text": "Säg saken som shoppas?"},
-						{"regex": "(skaffa|stjäl|snappa)( (.*))?", "type": "msg", "text": "Stöld? Strålande stategi, Sherlock."}
+						{"regex": "(skaffa|stjäl|snappa|sno)( (.*))?", "type": "msg", "text": "Stöld? Strålande stategi, Sherlock."}
 					]},
 					"otherwise": {"type": "any", "list": [
 						{"regex": "sälj sak(en)?", "type": "msg", "text": "Sälja saken? Sällan."},
-						{"regex": "(släng|skrota) sak(en)?", "type": "msg", "text": "Sälja saken? Sällan."}
+						{"regex": "(släng|skrota) sak(en)?", "type": "msg", "text": "Slänga saken? Sällan."}
 					]}
 				},
-				{"regex": "stick|sjappa", "type": "go", "to": "base"},
+				{"regex": "stick|sjappa", "type": "all", "list": [
+					{"type": "go", "to": "base"},
+					{"type": "win-condition", "name": "out-s", "points": 2}
+				]},
 				{"regex": "se( (.*))?", "type": "examine", "group": 2, "failure": "Saknar synfält."},
 				{"regex": "start", "type": "giveup", "to": "base"},
 				{"type": "msg", "text": "Saken saknar signifikans. Sorry."}
@@ -65,16 +69,23 @@
 			"magic": "ÖVERTID",
 			"name": "Östlig ölbar",
 			"desc": "Öl överallt.",
-			"items": ["öl"],
 			"itemsDesc": "Ögonen ögnar: ",
+			"items": ["ökenväxt"],
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Öh?"},
 				{"regex": "(?!ö[a-zåäö]*( ö[a-zåäö]*)*).*", "type": "msg", "text": "Öh? Överanvänd ö-ljud, ögonaböj!"},
 				{"regex": "övertid", "type": "giveup", "to": "base"},
-				{"regex": "överge( öst| öl(bar)?en| örjan)?", "type": "go", "to": "base"},
-				{"regex": "ögna (örjan|översten?)", "type": "msg", "text": "Öga, öra. Örnnäsa. Ökänd överste."}, // överviktig?
-				{"regex": "ögna (öl)(en)?", "type": "examine", "thing": "öl"}, // XXX failure
-				{"regex": "öla( öl)?", "type": "pick", "thing": "öl", "success": "Överstökat.", "failure": "Överflödig ölning."},
+				{"regex": "överge( öst| öl(bar)?en| örjan)?", "type": "all", "list": [
+					{"type": "go", "to": "base"},
+					{"type": "win-condition", "name": "out-ö", "points": 2}
+				]},
+				{"regex": "ögna (örjan|översten?)", "type": "examine", "thing": "örjan"},
+				{"regex": "ögna öl", "type": "examine", "thing": "öl"},
+				{"regex": "ögna( (.*))?", "type": "examine", "group": 2, "failure": "Ögonen övar överflödigt."},
+				{"regex": "överta öl", "type": "msg", "text": "Öhmm. Öl \"övertas\" över ölstop."},
+				{"regex": "överta( (.*))?", "type": "pick", "group": 2, "success": "Övertagen.", "failure": "Överilat önsketänkande?"},
+				{"regex": "överge (.*)", "type": "drop", "group": 1, "success": "Övergivet.", "failure": "Öhmm?"},
+				{"regex": "öla( öl)?", "type": "win-condition", "name": "ölat", "points": 3, "success": "Överstökat.", "failure": "Överflödig ölning."},
 				{"type": "msg", "text": "Öh?"}
 			]
 		}
