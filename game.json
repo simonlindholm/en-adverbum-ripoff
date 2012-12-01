@@ -1,5 +1,5 @@
 // TODO
-// spara, ladda
+// spara, ladda, inventory
 {
 	"initialText": "Välkommen till denna anonyma Ad Verbum-rip off.\nFör (det varmt rekommenderade) originalspelet, se http://nickm.com/if/adverbum.html.",
 	"magicText": "\n\"HÖR UPP!\" ljuder en ihålig röst. \"Vet med dig att passage tillbaka är svårt för vissa, omöjligt för andra!\nOm du önskar teleportera dig - utan medhavda föremål - ut från detta stränga fängelse, använd det magiska ordet: %s!\"",
@@ -9,7 +9,7 @@
 	"items": {
 		"sak": {"desc": "Skum sak.", "points": 0},
 		"öl": {"desc": "Örjans Önskeöl™. Öländskt.", "points": 0},
-		"ökenväxt": {"desc": "Ödesdiger ökenväxt. Överdelen örtliknande, ömklig.", "points": 2},
+		"ökenväxt": {"desc": "Ödesdiger ökenväxt. Överdelen ömklig, örtliknande.", "points": 2},
 		"örjan": {"desc": "Öga, öra. Örnnäsa. Ökänd överste.", "points": 0}
 	},
 
@@ -66,24 +66,24 @@
 
 		"east": {
 			"magic": "ÖVERTID",
-			"name": "Östlig ölbar",
-			"desc": "Öl överallt.",
+			"name": "Örjans ölkafé",
+			"desc": "Öronbedövande; övergivna ölglas överallt. Öppettider: öppet ödestimmar, ödesdagar + övrigt.",
 			"itemsDesc": "Ögonen ögnar: ",
 			"items": ["ökenväxt"],
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Öh?"},
 				{"regex": "(?!ö[a-zåäö]*( ö[a-zåäö]*)*).*", "type": "msg", "text": "Öh? Överanvänd ö-ljud, ögonaböj!"},
 				{"regex": "övertid", "type": "giveup", "to": "base"},
-				{"regex": "överge( öst| öl(bar)?en| örjan)?", "type": "all", "list": [
+				{"regex": "överge( öst| ölen| (öl)?[ck]af[ée](e?t)?| örjan)?", "type": "all", "list": [
 					{"type": "go", "to": "base"},
-					{"type": "win-condition", "name": "out-ö", "points": 2}
+					{"type": "win-condition", "name": "out-ö", "points": 1}
 				]},
 				{"regex": "ögna (örjan|översten?)", "type": "examine", "thing": "örjan"},
 				{"regex": "ögna öl", "type": "examine", "thing": "öl"},
 				{"regex": "ögna( (.*))?", "type": "examine", "group": 2, "failure": "Ögonen övar överflödigt."},
 				{"regex": "överta öl", "type": "msg", "text": "Öhmm. Öl \"övertas\" över ölstop."},
 				{"regex": "överta( (.*))?", "type": "pick", "group": 2, "success": "Övertagen.", "failure": "Överilat önsketänkande?"},
-				{"regex": "överge (.*)", "type": "drop", "group": 1, "success": "Övergivet.", "failure": "Öhmm?"},
+				{"regex": "överge (.*)", "type": "drop", "group": 1, "success": "Övergiven.", "failure": "Öhmm?"},
 				{"regex": "öla( öl)?", "type": "win-condition", "name": "ölat", "points": 3, "success": "Överstökat.", "failure": "Överflödig ölning."},
 				{"type": "msg", "text": "Öh?"}
 			]
