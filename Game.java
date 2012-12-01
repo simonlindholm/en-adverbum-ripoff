@@ -40,18 +40,23 @@ public class Game {
 		this.currentRoom.enter(this);
 	}
 
-	public void dropEverything() {
-		for (String item : this.inventory) {
-			this.currentRoom.addItem(item);
-		}
-		this.inventory.clear();
+	public void describeCurrentRoom() {
+		this.currentRoom.describe(this);
 	}
 
 	public boolean currentRoomHasItem(String item) {
 		return this.currentRoom.hasItem(item);
 	}
+
 	public boolean inventoryHasItem(String item) {
 		return this.inventory.contains(item);
+	}
+
+	public void dropEverything() {
+		for (String item : this.inventory) {
+			this.currentRoom.addItem(item);
+		}
+		this.inventory.clear();
 	}
 
 	public boolean tryDropItem(String item) {

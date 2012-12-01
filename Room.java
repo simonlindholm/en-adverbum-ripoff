@@ -6,12 +6,15 @@ public class Room {
 	public ArrayList<String> items;
 
 	public void enter(Game game) {
-		System.out.println();
 		if (this.magic != null) {
 			System.out.println(game.getMagicText(this.magic));
 		}
+		this.describe(game);
+	}
 
+	public void describe(Game game) {
 		// Print with room name with either weird decoration or in bold (both work ok).
+		System.out.println();
 		System.out.printf("\033[1m%s\033[0m\n", this.name);
 		System.out.println(this.desc);
 	}
