@@ -7,11 +7,10 @@
 	"start": "base",
 
 	"items": {
-		// XXX points
-		"sak": "Skum sak.",
-		"öl": "Örjans Önskeöl™. Öländskt.",
-		"ökenväxt": "Ödesdiger ökenväxt. Överdelen örtliknande, ömklig.",
-		"örjan": "Öga, öra. Örnnäsa. Ökänd överste."
+		"sak": {"desc": "Skum sak.", "points": 0},
+		"öl": {"desc": "Örjans Önskeöl™. Öländskt.", "points": 0},
+		"ökenväxt": {"desc": "Ödesdiger ökenväxt. Överdelen örtliknande, ömklig.", "points": 2},
+		"örjan": {"desc": "Öga, öra. Örnnäsa. Ökänd överste.", "points": 0}
 	},
 
 	"rooms": {

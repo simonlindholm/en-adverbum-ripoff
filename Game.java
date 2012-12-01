@@ -5,17 +5,23 @@ import java.util.*;
 import java.io.*;
 
 public class Game {
+	private static class Item {
+		@JsonProperty
+		public String desc;
+		@JsonProperty
+		public int points;
+	}
 	private static class JsonData {
 		@JsonProperty
 		public String start, initialText, magicText, giveupText;
 		@JsonProperty
 		public Map<String, Room> rooms;
 		@JsonProperty
-		public Map<String, String> items;
+		public Map<String, Item> items;
 	}
 
 	private Map<String, Room> rooms;
-	private Map<String, String> itemDescs;
+	private Map<String, Item> items;
 	private String magicText, giveupText;
 
 	// Game state
@@ -81,11 +87,19 @@ public class Game {
 	}
 
 	public void examineItem(String item) {
-		System.out.println(this.itemDescs.get(item));
+		System.out.println(this.items.get(item).desc);
 	}
 
 	public boolean tryWinCondition(String name) {
 		return this.wonConditions.add(name);
+	}
+
+	public int tryItemWinCondition(String item) {
+		Item it = this.items.get(item);
+		if (it.points != 0 && this.tryWinCondition("picked-" + item)) {
+			return it.points;
+		}
+		return 0;
 	}
 
 	public void increaseScore(int points) {
@@ -108,7 +122,7 @@ public class Game {
 			this.rooms = d.rooms;
 			this.magicText = d.magicText;
 			this.giveupText = d.giveupText;
-			this.itemDescs = d.items;
+			this.items = d.items;
 
 			this.inventory = new ArrayList<String>();
 			this.wonConditions = new HashSet<String>();
