@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Room {
-	public String name, desc, magic;
+	public String name, desc, itemsDesc, magic;
 	public ArrayList<Command> commands;
 	public ArrayList<String> items;
 
@@ -17,6 +17,14 @@ public class Room {
 		System.out.println();
 		System.out.printf("\033[1m%s\033[0m\n", this.name);
 		System.out.println(this.desc);
+		if (!this.items.isEmpty()) {
+			System.out.println();
+			System.out.print(this.itemsDesc);
+			for (String item : this.items) {
+				System.out.print("... " + item);
+			}
+			System.out.println(".");
+		}
 	}
 
 	public boolean hasItem(String item) {
