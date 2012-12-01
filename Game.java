@@ -91,7 +91,8 @@ public class Game {
 			mapper.configure(Feature.ALLOW_COMMENTS, true);
 			JsonData d = mapper.readValue(new File("game.json"), JsonData.class);
 
-			System.out.println();
+			// (Hopefully) clear the screen, and print an introduction.
+			System.out.println("\033[2J\033[1;1H");
 			System.out.println(d.initialText);
 			System.out.println("\n---------------");
 
