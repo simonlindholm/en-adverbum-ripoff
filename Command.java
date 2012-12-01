@@ -11,6 +11,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.*;
 	@JsonSubTypes.Type(value=GiveupCommand.class, name="giveup"),
 	@JsonSubTypes.Type(value=ExamineCommand.class, name="examine"),
 	@JsonSubTypes.Type(value=ConditionCommand.class, name="condition"),
+	@JsonSubTypes.Type(value=WinConditionCommand.class, name="win-condition"),
 	@JsonSubTypes.Type(value=ExitCommand.class, name="exit")
 })
 public abstract class Command {

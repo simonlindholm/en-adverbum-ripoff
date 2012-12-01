@@ -18,6 +18,8 @@ public class Game {
 	// Player state
 	private Room currentRoom;
 	private ArrayList<String> inventory;
+	private int score;
+	private Set<String> wonConditions;
 
 	private boolean shouldExit = false;
 	public void signalExit() {
@@ -73,6 +75,15 @@ public class Game {
 		return true;
 	}
 
+	public boolean tryWinCondition(String name) {
+		return this.wonConditions.add(name);
+	}
+
+	public void increaseScore(int points) {
+		this.score += points;
+	}
+
+
 	void run() {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -89,6 +100,8 @@ public class Game {
 			this.itemDescs = d.items;
 
 			this.inventory = new ArrayList<String>();
+			this.wonConditions = new HashSet<String>();
+			this.score = 0;
 			this.goRoom(d.start);
 
 			InputStreamReader converter = new InputStreamReader(System.in);
