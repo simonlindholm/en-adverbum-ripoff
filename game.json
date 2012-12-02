@@ -25,7 +25,7 @@
 				{"regex": "avsluta|exit", "type": "exit"},
 				{"regex": "(släpp|överge)( (.*))?", "type": "drop", "group": 3, "success": "Släppt.", "failure": "Släpp vad?"},
 				{"regex": "(tag?|plocka|överta)( (.*))?", "type": "pick", "group": 3, "success": "Tagen.", "failure": "Plocka up vad?"},
-				{"regex": "(undersök|x|kolla)( (.*))?", "type": "examine", "group": 3, "failure": "Undersök vad?"},
+				{"regex": "(undersök|x|kolla|se|ögna)( (.*))?", "type": "examine", "group": 3, "failure": "Undersök vad?"},
 				{"regex": "(gå )?väst(erut|vart)?", "type": "go", "to": "west"},
 				{"regex": "(gå )?öst(erut|vart)?", "type": "go", "to": "east"},
 				{"regex": "norr|nord|(gå )?nor(rut|dvart)", "type": "go", "to": "north"},
@@ -85,6 +85,10 @@
 				{"regex": "överta( (.*))?", "type": "pick", "group": 2, "success": "Övertagen.", "failure": "Överilat önsketänkande?"},
 				{"regex": "överge (.*)", "type": "drop", "group": 1, "success": "Övergiven.", "failure": "Öhmm?"},
 				{"regex": "öla( öl)?", "type": "win-condition", "name": "ölat", "points": 3, "success": "Överstökat.", "failure": "Överflödig ölning."},
+				{"regex": "öst", "type": "msg", "text": "Överge önskedrömmarna - överstens överraskningsfest östvart."},
+				{"regex": "överdriv", "type": "msg", "text": "Överväldigande ölkafé, överdådig Ölandsstil."},
+				{"regex": "översikt", "type": "examine"},
+				{"regex": "överdosera( öl)?", "type": "msg", "text": "Överdosera öl!? Överilat..."},
 				{"type": "msg", "text": "Öh?"}
 			]
 		}
