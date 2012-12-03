@@ -30,6 +30,8 @@
 				{"regex": "öst|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?öst(erut|vart)", "type": "go", "to": "east"},
 				{"regex": "norr|nord|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?nor(rut|dvart)", "type": "go", "to": "north"},
 				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?(söderut|sydvart)", "type": "go", "to": "south"},
+				{"regex": "ladda beamer", "type": "msg", "text": "Din mystiska beamer-pryl är nu laddad! Avfyra den snart."},
+				{"regex": "avfyra beamer", "type": "msg", "text": "BAM!\n...\nIngenting händer. Du får en känsla av att mojängen bara fanns till för att uppfylla vissa krav, som en teknikalitetssak."},
 				{"regex": "teleportera", "type": "go", "to": "teleport"},
 				{"type": "msg", "text": "Jag förstår inte."}
 			]
