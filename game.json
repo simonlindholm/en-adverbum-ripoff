@@ -26,10 +26,10 @@
 				{"regex": "(släpp|överge)( (.*))?", "type": "drop", "group": 3, "success": "Släppt.", "failure": "Släpp vad?"},
 				{"regex": "(tag?|plocka|överta)( (.*))?", "type": "pick", "group": 3, "success": "Tagen.", "failure": "Plocka up vad?"},
 				{"regex": "(undersök|x|kolla|se|ögna)( (.*))?", "type": "examine", "group": 3, "failure": "Undersök vad?"},
-				{"regex": "(gå )?väst(erut|vart)?", "type": "go", "to": "west"},
-				{"regex": "(gå )?öst(erut|vart)?", "type": "go", "to": "east"},
-				{"regex": "norr|nord|(gå )?nor(rut|dvart)", "type": "go", "to": "north"},
-				{"regex": "syd|(gå )?(söderut|sydvart)", "type": "go", "to": "south"},
+				{"regex": "väst|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?väst(erut|vart)", "type": "go", "to": "west"},
+				{"regex": "öst|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?öst(erut|vart)", "type": "go", "to": "east"},
+				{"regex": "norr|nord|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?nor(rut|dvart)", "type": "go", "to": "north"},
+				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?(söderut|sydvart)", "type": "go", "to": "south"},
 				{"type": "msg", "text": "Jag förstår inte."}
 			]
 		},
@@ -38,11 +38,11 @@
 			"magic": "START",
 			"name": "Sydligt salushus",
 			"desc": "Skylt: Sak Säljes", // XXX "sak" = ? + desc
-			"itemsDesc": "Saker: ",
+			"itemsDesc": "Synligt: ",
 			"items": ["sak"],
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Säg saker!"},
-				{"regex": "(?!s[a-zåäö]*( s[a-zåäö]*)*).*", "type": "msg", "text": "Sådant språk!", "text2": "Säg som snoken: Ssss..."},
+				{"regex": "(?!s[a-zåäö]*( s[a-zåäö]*)*).*", "type": "msg", "text": "Stopp! Sådant språk! Skriven sträng saknar stil.", "text2": "Säg som snoken: Ssss..."},
 				{"type": "condition", "roomHasItem": "sak",
 					"then": {"type": "any", "list": [
 						{"regex": "shoppa sak|storhandla", "type": "pick", "thing": "sak", "success": "Storartat.", "failure": "<null>"},
@@ -59,6 +59,28 @@
 					{"type": "win-condition", "name": "out-s", "points": 2}
 				]},
 				{"regex": "se( (.*))?", "type": "examine", "group": 2, "failure": "Saknar synfält."},
+				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta )?(söderut|sydvart)", "type": "msg", "text": "Solida strukturer stoppas sydligt struttande."},
+				{"regex": "ströva|stick|stappla|spatsera|strosa|strutta", "type": "msg", "text": "Specificera slutpunkt."},
+				{"regex": "sov", "type": "msg", "text": "Sova? Solen skiner! Sedan så saknas säng."},
+				{"type": "condition", "state": "sitting",
+					"then": {"type": "any", "list": [
+						{"regex": "sitt", "type": "msg", "text": "... Sitter stadigt. Seriöst."},
+						{"regex": "stå", "type": "all", "list": [
+							{"type": "set-state", "state": "sitting", "value": false},
+							{"type": "msg", "text": "Så ... står säkert."}
+						]}
+					]},
+					"otherwise": {"type": "any", "list": [
+						{"regex": "sitt", "type": "all", "list": [
+							{"type": "set-state", "state": "sitting", "value": true},
+							{"type": "msg", "text": "Sitta? Säkert. Sådär."}
+						]},
+						{"regex": "stå", "type": "msg", "text": "Så ... står säkert."}
+					]}
+				},
+				{"regex": "sjung", "type": "msg", "text": "Sjunger sanslösa, \u0073\u0061ponificerande serenader!"},
+				{"regex": "sucka", "type": "msg", "text": "Suckar sentimentalt."},
+				{"regex": "(säg|snacka)( .*)?", "type": "msg", "text": "Sällskapet svarar svalt."},
 				{"regex": "start", "type": "giveup", "to": "base"},
 				{"type": "msg", "text": "Saken saknar signifikans. Sorry."}
 			]
@@ -86,7 +108,8 @@
 				{"regex": "överge (.*)", "type": "drop", "group": 1, "success": "Övergiven.", "failure": "Öhmm?"},
 				{"regex": "öla( öl)?", "type": "win-condition", "name": "ölat", "points": 3, "success": "Överstökat.", "failure": "Överflödig ölning."},
 				{"regex": "öst", "type": "msg", "text": "Överge önskedrömmarna - överstens överraskningsfest östvart."},
-				{"regex": "överdriv", "type": "msg", "text": "Överväldigande ölkafé, överdådig Ölandsstil."},
+				{"regex": "överdriv", "type": "msg", "text": "\"Överdådigt ölkafé; överväldigande Ölandsstil.\""},
+				{"regex": "öppna", "type": "msg", "text": "Öppna... öl? Öl öppen."},
 				{"regex": "översikt", "type": "examine"},
 				{"regex": "överdosera( öl)?", "type": "msg", "text": "Överdosera öl!? Överilat..."},
 				{"type": "msg", "text": "Öh?"}
