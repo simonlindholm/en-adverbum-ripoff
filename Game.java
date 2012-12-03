@@ -51,6 +51,18 @@ public class Game {
 		this.currentRoom.enter(this);
 	}
 
+	public void goRandomRoomExcept(Room room) {
+		List<String> roomKeys = new ArrayList<String>(this.rooms.keySet());
+
+		for (;;) {
+			String roomKey = roomKeys.get((int)(Math.random() * roomKeys.size()));
+			if (this.rooms.get(roomKey) != room) {
+				goRoom(roomKey);
+				return;
+			}
+		}
+	}
+
 	public void describeCurrentRoom() {
 		this.currentRoom.describe(this);
 	}

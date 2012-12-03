@@ -30,8 +30,18 @@
 				{"regex": "öst|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?öst(erut|vart)", "type": "go", "to": "east"},
 				{"regex": "norr|nord|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?nor(rut|dvart)", "type": "go", "to": "north"},
 				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?(söderut|sydvart)", "type": "go", "to": "south"},
+				{"regex": "teleportera", "type": "go", "to": "teleport"},
 				{"type": "msg", "text": "Jag förstår inte."}
 			]
+		},
+
+		"teleport": {
+			"name": "Teleporterrum",
+			"desc": "Du upptäcker ett mysko rum, utan tillbakaledande dörr. Innan du hinner få känslan av att det bara existerar\nsom en ren teknikalitet, försvinner marken under dina fötter och du teleporteras till\n\n...\n",
+			"itemsDesc": "Föremål: ",
+			"autoTeleport": true,
+			"items": [],
+			"commands": []
 		},
 
 		"south": {

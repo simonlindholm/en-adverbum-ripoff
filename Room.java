@@ -8,12 +8,18 @@ public class Room {
 	private ArrayList<Command> commands;
 	@JsonProperty
 	private ArrayList<String> items;
+	@JsonProperty
+	private boolean autoTeleport = false;
 
 	public void enter(Game game) {
 		if (this.magic != null) {
 			System.out.println(game.getMagicText(this.magic));
 		}
 		this.describe(game);
+
+		if (this.autoTeleport) {
+			game.goRandomRoomExcept(this);
+		}
 	}
 
 	public void describe(Game game) {
