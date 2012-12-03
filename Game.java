@@ -32,6 +32,7 @@ public class Game {
 	private ArrayList<String> inventory;
 	private int score;
 	private Set<String> wonConditions;
+	private Set<String> roomState;
 
 	public void signalExit() {
 		shouldExit = true;
@@ -45,6 +46,7 @@ public class Game {
 	}
 
 	public void goRoom(String room) {
+		this.roomState = new HashSet<String>();
 		this.currentRoom = this.rooms.get(room);
 		this.currentRoom.enter(this);
 	}
@@ -106,6 +108,17 @@ public class Game {
 		this.score += points;
 	}
 
+	public boolean hasState(String state) {
+		return this.roomState.contains(state);
+	}
+	public void setState(String state, boolean value) {
+		if (value) {
+			this.roomState.add(state);
+		} else {
+			this.roomState.remove(state);
+		}
+	}
+
 
 	void run() {
 		try {
@@ -113,11 +126,6 @@ public class Game {
 			mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
 			mapper.configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, false);
 			JsonData d = mapper.readValue(new File("game.json"), JsonData.class);
-
-			// (Hopefully) clear the screen, and print an introduction.
-			System.out.println("\033[2J\033[1;1H");
-			System.out.println(d.initialText);
-			System.out.println("\n---------------");
 
 			this.rooms = d.rooms;
 			this.magicText = d.magicText;
@@ -127,6 +135,12 @@ public class Game {
 			this.inventory = new ArrayList<String>();
 			this.wonConditions = new HashSet<String>();
 			this.score = 0;
+
+			// (Hopefully) clear the screen, and print an introduction.
+			System.out.println("\033[2J\033[1;1H");
+			System.out.println(d.initialText);
+			System.out.println("\n---------------");
+
 			this.goRoom(d.start);
 
 			InputStreamReader converter = new InputStreamReader(System.in);
