@@ -79,7 +79,16 @@
 			],
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Säg saker!"},
-				{"regex": "(?!s[a-zåäö]*( s[a-zåäö]*)*).*", "type": "msg", "text": "Stopp! Sådant språk! Skriven sträng saknar stil.", "text2": "Säg som snoken: Ssss..."},
+				{"regex": "(?!s[a-zåäö]*( s[a-zåäö]*)*).*", "type": "condition", "globalState": "s-error-alt",
+					"otherwise": {"type": "all", "list": [
+						{"type": "msg", "text": "Stopp! Sådant språk! Skriven sträng saknar stil."},
+						{"type": "set-state", "state": "s-error-alt", "global": true, "value": true}
+					]},
+					"then": {"type": "all", "list": [
+						{"type": "msg", "text": "Säg som snoken: Ssss..."},
+						{"type": "set-state", "state": "s-error-alt", "global": true, "value": false}
+					]}
+				},
 				{"type": "condition", "roomHasItem": "souvenir",
 					"then": {"type": "any", "list": [
 						{"regex": "shoppa souvenir|storhandla", "type": "pick", "thing": "souvenir", "success": "Storartat.", "failure": "<null>"},
