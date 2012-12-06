@@ -7,7 +7,8 @@
 	"start": "base",
 
 	"items": {
-		"sak": {"desc": "Skum sak.", "points": 0},
+		"souvenir": {"desc": "Svåridentifierad sak. Skenbart svensk.", "points": 3},
+		"sune": {"desc": "Småsur, sniken souvenirståndsägare.", "points": 0},
 		"öl": {"desc": "Örjans Önskeöl™. Öländskt.", "points": 0},
 		"ökenväxt": {"desc": "Ödesdiger ökenväxt. Överdelen ömklig, örtliknande.", "points": 2},
 		"örjan": {"desc": "Öga, öra. Örnnäsa. Ökänd överste.", "points": 0}
@@ -65,28 +66,38 @@
 		"south": {
 			"magic": "START",
 			"name": "Sydligt salushus",
-			"desc": "Skylt: Sak Säljes", // XXX "sak" = ? + desc
+			"desc": "Småskaligt salushus. Samlar skoaffär, sportbutik, snabbköp (samtliga semesterstängda), samt Sunes souvenirstånd.\nSjälvlysande skylt säger: Svenska souvenirer, SEK 79.",
 			"itemsDesc": "Synligt: ",
-			"items": ["sak"],
+			"items": ["souvenir"],
+			"initial": [
+				{"type": "condition", "globalState": "sune-spoke",
+					"otherwise": {"type": "all", "list": [
+						{"type": "msg", "text": "\nSune säger: \"Sjysta souvenirer!\""},
+						{"type": "set-state", "state": "sune-spoke", "global": true, "value": true}
+					]}
+				}
+			],
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Säg saker!"},
 				{"regex": "(?!s[a-zåäö]*( s[a-zåäö]*)*).*", "type": "msg", "text": "Stopp! Sådant språk! Skriven sträng saknar stil.", "text2": "Säg som snoken: Ssss..."},
-				{"type": "condition", "roomHasItem": "sak",
+				{"type": "condition", "roomHasItem": "souvenir",
 					"then": {"type": "any", "list": [
-						{"regex": "shoppa sak|storhandla", "type": "pick", "thing": "sak", "success": "Storartat.", "failure": "<null>"},
+						{"regex": "shoppa souvenir|storhandla", "type": "pick", "thing": "souvenir", "success": "Storartat.", "failure": "<null>"},
 						{"regex": "shoppa( .*)?", "type": "msg", "text": "Säg saken som shoppas?"},
 						{"regex": "(skaffa|stjäl|snappa|sno)( (.*))?", "type": "msg", "text": "Stöld? Strålande strategi, Sherlock."}
 					]},
 					"otherwise": {"type": "any", "list": [
-						{"regex": "sälj sak(en)?", "type": "msg", "text": "Sälja saken? Sällan."},
-						{"regex": "(släng|skrota) sak(en)?", "type": "msg", "text": "Slänga saken? Sällan."}
+						{"regex": "sälj souvenir", "type": "msg", "text": "Sälja souveniren? Sällan."},
+						{"regex": "(släng|skrota) souvenir", "type": "msg", "text": "Slänga souveniren? Sällan."}
 					]}
 				},
 				{"regex": "stick|sjappa", "type": "all", "list": [
 					{"type": "go", "to": "base"},
 					{"type": "win-condition", "name": "out-s", "points": 2}
 				]},
-				{"regex": "se( (.*))?", "type": "examine", "group": 2, "failure": "Saknar synfält."},
+				{"regex": "snacka|språka( sune)?", "type": "msg", "text": "Sune svarar surt: Skarevanåt?"},
+				{"regex": "(se|skåda|syna) sune", "type": "examine", "thing": "sune"},
+				{"regex": "(se|skåda|syna)( (.*))?", "type": "examine", "group": 3, "failure": "Saknar synfält."},
 				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta )?(söderut|sydvart)", "type": "msg", "text": "Solida strukturer stoppas sydligt struttande."},
 				{"regex": "ströva|stick|stappla|spatsera|strosa|strutta", "type": "msg", "text": "Specificera slutpunkt."},
 				{"regex": "sov", "type": "msg", "text": "Sova? Solen skiner! Sedan så saknas säng."},
