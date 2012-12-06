@@ -30,8 +30,22 @@
 				{"regex": "öst|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?öst(erut|vart)", "type": "go", "to": "east"},
 				{"regex": "norr|nord|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?nor(rut|dvart)", "type": "go", "to": "north"},
 				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?(söderut|sydvart)", "type": "go", "to": "south"},
-				{"regex": "ladda beamer", "type": "msg", "text": "Din mystiska beamer-pryl är nu laddad! Avfyra den snart."},
-				{"regex": "avfyra beamer", "type": "msg", "text": "BAM!\n...\nIngenting händer. Du får en känsla av att mojängen bara fanns till för att uppfylla vissa krav, som en teknikalitetssak."},
+				{"type": "condition", "globalState": "beamer-charged",
+					"then": {"type": "any", "list": [
+						{"regex": "ladda beamer", "type": "msg", "text": "Beamern är ömtålig. Överladda den inte!"},
+						{"regex": "avfyra beamer", "type": "all", "list": [
+							{"type": "msg", "text": "BAM!\n...\nIngenting händer. Du får en känsla av att mojängen bara fanns till för att uppfylla vissa krav, som en teknikalitetssak."},
+							{"type": "set-state", "state": "beamer-charged", "global": true, "value": false}
+						]}
+					]},
+					"otherwise": {"type": "any", "list": [
+						{"regex": "ladda beamer", "type": "all", "list": [
+							{"type": "msg", "text": "Din mystiska beamer-pryl är nu laddad! Avfyra den snart."},
+							{"type": "set-state", "state": "beamer-charged", "global": true, "value": true}
+						]},
+						{"regex": "avfyra beamer", "type": "msg", "text": "Beamern är inte laddad än..."}
+					]}
+				},
 				{"regex": "teleportera", "type": "go", "to": "teleport"},
 				{"type": "msg", "text": "Jag förstår inte."}
 			]
@@ -59,7 +73,7 @@
 					"then": {"type": "any", "list": [
 						{"regex": "shoppa sak|storhandla", "type": "pick", "thing": "sak", "success": "Storartat.", "failure": "<null>"},
 						{"regex": "shoppa( .*)?", "type": "msg", "text": "Säg saken som shoppas?"},
-						{"regex": "(skaffa|stjäl|snappa|sno)( (.*))?", "type": "msg", "text": "Stöld? Strålande stategi, Sherlock."}
+						{"regex": "(skaffa|stjäl|snappa|sno)( (.*))?", "type": "msg", "text": "Stöld? Strålande strategi, Sherlock."}
 					]},
 					"otherwise": {"type": "any", "list": [
 						{"regex": "sälj sak(en)?", "type": "msg", "text": "Sälja saken? Sällan."},
@@ -74,17 +88,17 @@
 				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta )?(söderut|sydvart)", "type": "msg", "text": "Solida strukturer stoppas sydligt struttande."},
 				{"regex": "ströva|stick|stappla|spatsera|strosa|strutta", "type": "msg", "text": "Specificera slutpunkt."},
 				{"regex": "sov", "type": "msg", "text": "Sova? Solen skiner! Sedan så saknas säng."},
-				{"type": "condition", "state": "sitting",
+				{"type": "condition", "localState": "sitting",
 					"then": {"type": "any", "list": [
 						{"regex": "sitt", "type": "msg", "text": "... Sitter stadigt. Seriöst."},
 						{"regex": "stå", "type": "all", "list": [
-							{"type": "set-state", "state": "sitting", "value": false},
+							{"type": "set-state", "state": "sitting", "global": false, "value": false},
 							{"type": "msg", "text": "Så ... står säkert."}
 						]}
 					]},
 					"otherwise": {"type": "any", "list": [
 						{"regex": "sitt", "type": "all", "list": [
-							{"type": "set-state", "state": "sitting", "value": true},
+							{"type": "set-state", "state": "sitting", "global": false, "value": true},
 							{"type": "msg", "text": "Sitta? Säkert. Sådär."}
 						]},
 						{"regex": "stå", "type": "msg", "text": "Så ... står säkert."}
