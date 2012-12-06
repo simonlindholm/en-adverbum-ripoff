@@ -27,15 +27,24 @@ public class Game {
 	// Game state
 	private boolean shouldExit = false;
 
-	// Player state
-	private Room currentRoom;
-	private ArrayList<String> inventory;
-	private int score;
-	private Set<String> wonConditions;
-	private Set<String> globalState, roomState;
+	private static class PlayerState {
+		public Room currentRoom;
+		public ArrayList<String> inventory;
+		public int score;
+		public Set<String> wonConditions;
+		public Set<String> globalState, roomState;
+
+		public PlayerState() {
+			this.inventory = new ArrayList<String>();
+			this.wonConditions = new HashSet<String>();
+			this.globalState = new HashSet<String>();
+			this.score = 0;
+		}
+	}
+	private PlayerState state;
 
 	public void signalExit() {
-		shouldExit = true;
+		this.shouldExit = true;
 	}
 
 	public String getMagicText(String word) {
@@ -46,9 +55,9 @@ public class Game {
 	}
 
 	public void goRoom(String room) {
-		this.roomState = new HashSet<String>();
-		this.currentRoom = this.rooms.get(room);
-		this.currentRoom.enter(this);
+		this.state.roomState = new HashSet<String>();
+		this.state.currentRoom = this.rooms.get(room);
+		this.state.currentRoom.enter(this);
 	}
 
 	public void goRandomOtherRoom() {
@@ -56,7 +65,7 @@ public class Game {
 
 		for (;;) {
 			String roomKey = roomKeys.get((int)(Math.random() * roomKeys.size()));
-			if (this.rooms.get(roomKey) != this.currentRoom) {
+			if (this.rooms.get(roomKey) != this.state.currentRoom) {
 				goRoom(roomKey);
 				return;
 			}
@@ -64,30 +73,30 @@ public class Game {
 	}
 
 	public void describeCurrentRoom() {
-		this.currentRoom.describe(this);
+		this.state.currentRoom.describe(this);
 	}
 
 	public boolean currentRoomHasItem(String item) {
-		return this.currentRoom.hasItem(item);
+		return this.state.currentRoom.hasItem(item);
 	}
 
 	public boolean inventoryHasItem(String item) {
-		return this.inventory.contains(item);
+		return this.state.inventory.contains(item);
 	}
 
 	public void dropEverything() {
-		for (String item : this.inventory) {
-			this.currentRoom.addItem(item);
+		for (String item : this.state.inventory) {
+			this.state.currentRoom.addItem(item);
 		}
-		this.inventory.clear();
+		this.state.inventory.clear();
 	}
 
 	public boolean tryDropItem(String item) {
 		if (!this.inventoryHasItem(item)) {
 			return false;
 		}
-		this.inventory.remove(item);
-		this.currentRoom.addItem(item);
+		this.state.inventory.remove(item);
+		this.state.currentRoom.addItem(item);
 		return true;
 	}
 
@@ -95,8 +104,8 @@ public class Game {
 		if (!this.currentRoomHasItem(item)) {
 			return false;
 		}
-		this.currentRoom.removeItem(item);
-		this.inventory.add(item);
+		this.state.currentRoom.removeItem(item);
+		this.state.inventory.add(item);
 		return true;
 	}
 
@@ -105,7 +114,7 @@ public class Game {
 	}
 
 	public boolean tryWinCondition(String name) {
-		return this.wonConditions.add(name);
+		return this.state.wonConditions.add(name);
 	}
 
 	public int tryItemWinCondition(String item) {
@@ -117,15 +126,17 @@ public class Game {
 	}
 
 	public void increaseScore(int points) {
-		this.score += points;
+		this.state.score += points;
 	}
 
+	private Set<String> getStateHolder(boolean global) {
+		return (global ? this.state.globalState : this.state.roomState);
+	}
 	public boolean hasState(boolean global, String name) {
-		Set<String> state = (global ? this.globalState : this.roomState);
-		return state.contains(name);
+		return this.getStateHolder(global).contains(name);
 	}
 	public void setState(boolean global, String name, boolean value) {
-		Set<String> state = (global ? this.globalState : this.roomState);
+		Set<String> state = this.getStateHolder(global);
 		if (value) {
 			state.add(name);
 		} else {
@@ -146,10 +157,7 @@ public class Game {
 			this.giveupText = d.giveupText;
 			this.items = d.items;
 
-			this.inventory = new ArrayList<String>();
-			this.wonConditions = new HashSet<String>();
-			this.globalState = new HashSet<String>();
-			this.score = 0;
+			this.state = new PlayerState();
 
 			// (Hopefully) clear the screen, and print an introduction.
 			System.out.println("\033[2J\033[1;1H");
@@ -171,7 +179,7 @@ public class Game {
 				}
 				input = input.toLowerCase();
 
-				this.currentRoom.handleInput(this, input);
+				this.state.currentRoom.handleInput(this, input);
 				if (this.shouldExit) {
 					break;
 				}
