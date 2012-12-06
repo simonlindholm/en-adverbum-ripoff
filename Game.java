@@ -32,7 +32,7 @@ public class Game {
 	private ArrayList<String> inventory;
 	private int score;
 	private Set<String> wonConditions;
-	private Set<String> roomState;
+	private Set<String> globalState, roomState;
 
 	public void signalExit() {
 		shouldExit = true;
@@ -120,14 +120,16 @@ public class Game {
 		this.score += points;
 	}
 
-	public boolean hasState(String state) {
-		return this.roomState.contains(state);
+	public boolean hasState(boolean global, String name) {
+		Set<String> state = (global ? this.globalState : this.roomState);
+		return state.contains(name);
 	}
-	public void setState(String state, boolean value) {
+	public void setState(boolean global, String name, boolean value) {
+		Set<String> state = (global ? this.globalState : this.roomState);
 		if (value) {
-			this.roomState.add(state);
+			state.add(name);
 		} else {
-			this.roomState.remove(state);
+			state.remove(name);
 		}
 	}
 
@@ -146,6 +148,7 @@ public class Game {
 
 			this.inventory = new ArrayList<String>();
 			this.wonConditions = new HashSet<String>();
+			this.globalState = new HashSet<String>();
 			this.score = 0;
 
 			// (Hopefully) clear the screen, and print an introduction.

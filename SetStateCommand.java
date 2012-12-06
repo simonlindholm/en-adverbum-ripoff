@@ -5,9 +5,9 @@ public class SetStateCommand extends SimpleCommand {
 	@JsonProperty
 	private String state;
 	@JsonProperty
-	private boolean value;
+	private boolean value, global;
 
 	public void perform(Game game) {
-		game.setState(state, value);
+		game.setState(global, state, value);
 	}
 }
