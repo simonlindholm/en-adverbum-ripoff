@@ -5,11 +5,9 @@ public class Room {
 	@JsonProperty
 	private String name, desc, itemsDesc, magic;
 	@JsonProperty
-	private ArrayList<Command> commands;
+	private ArrayList<Command> initial, commands;
 	@JsonProperty
 	private ArrayList<String> items;
-	@JsonProperty
-	private boolean autoTeleport = false;
 
 	public void enter(Game game) {
 		if (this.magic != null) {
@@ -17,8 +15,10 @@ public class Room {
 		}
 		this.describe(game);
 
-		if (this.autoTeleport) {
-			game.goRandomRoomExcept(this);
+		if (this.initial != null) {
+			for (Command c : this.initial) {
+				c.maybePerform("", game);
+			}
 		}
 	}
 

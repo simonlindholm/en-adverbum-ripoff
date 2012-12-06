@@ -51,12 +51,12 @@ public class Game {
 		this.currentRoom.enter(this);
 	}
 
-	public void goRandomRoomExcept(Room room) {
+	public void goRandomOtherRoom() {
 		List<String> roomKeys = new ArrayList<String>(this.rooms.keySet());
 
 		for (;;) {
 			String roomKey = roomKeys.get((int)(Math.random() * roomKeys.size()));
-			if (this.rooms.get(roomKey) != room) {
+			if (this.rooms.get(roomKey) != this.currentRoom) {
 				goRoom(roomKey);
 				return;
 			}

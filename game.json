@@ -55,7 +55,9 @@
 			"name": "Teleporterrum",
 			"desc": "Du upptäcker ett mysko rum, utan tillbakaledande dörr. Innan du hinner få känslan av att det bara existerar\nsom en ren teknikalitet, försvinner marken under dina fötter och du teleporteras till\n\n...\n",
 			"itemsDesc": "Föremål: ",
-			"autoTeleport": true,
+			"initial": [
+				{"type": "teleport"}
+			],
 			"items": [],
 			"commands": []
 		},
