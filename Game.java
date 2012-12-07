@@ -177,7 +177,7 @@ public class Game {
 					System.out.println();
 					break;
 				}
-				input = input.toLowerCase();
+				input = input.toLowerCase().trim();
 
 				this.state.currentRoom.handleInput(this, input);
 				if (this.shouldExit) {
