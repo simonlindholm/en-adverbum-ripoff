@@ -1,6 +1,9 @@
 import org.codehaus.jackson.annotate.*;
 import org.codehaus.jackson.map.*;
 import org.codehaus.jackson.*;
+import javax.crypto.spec.*;
+import javax.crypto.*;
+import java.security.*;
 import java.util.*;
 import java.io.*;
 
@@ -27,10 +30,16 @@ public class Game {
 	// Game state
 	private boolean shouldExit = false;
 
+	private static final byte[] ENCRYPTION_KEY = "ouC0QowpgXL02jGS".getBytes();
+	private static final byte[] IV = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
 	private static class PlayerState {
+		@JsonProperty
 		public String currentRoomName;
 		public Room currentRoom;
+		@JsonProperty
 		public int score;
+		@JsonProperty
 		public Set<String> inventory, wonConditions, globalState, roomState;
 
 		public PlayerState() {
@@ -38,6 +47,14 @@ public class Game {
 			this.wonConditions = new HashSet<String>();
 			this.globalState = new HashSet<String>();
 			this.score = 0;
+		}
+
+		public static PlayerState fromJSON(Game game, String json) throws Exception {
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, false);
+			PlayerState s = mapper.readValue(json, PlayerState.class);
+			s.currentRoom = game.rooms.get(s.currentRoomName);
+			return s;
 		}
 	}
 	private PlayerState state;
@@ -142,6 +159,56 @@ public class Game {
 		} else {
 			state.remove(name);
 		}
+	}
+
+	public void saveGame(String saveName) throws Exception {
+		String fileName = saveName + ".save";
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationConfig.Feature.AUTO_DETECT_FIELDS, false);
+		String saveStr = mapper.writeValueAsString(this.state);
+
+		// Scramble the save file a bit.
+		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(ENCRYPTION_KEY, "AES"), new IvParameterSpec(IV));
+		byte[] input = saveStr.getBytes("UTF-8");
+		byte[] output = cipher.doFinal(input);
+
+		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fileName));
+		try {
+			bos.write(output);
+		} finally {
+			bos.close();
+		}
+	}
+
+	public void loadGame(String saveName) throws Exception {
+		String fileName = saveName + ".save";
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		InputStream is = new FileInputStream(fileName);
+		try {
+			byte buffer[] = new byte[2048];
+			while (true) {
+				int read = is.read(buffer);
+				if (read < 0) {
+					break;
+				}
+				baos.write(buffer, 0, read);
+			}
+		} finally {
+			is.close();
+		}
+
+		// Unscramble the file.
+		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(ENCRYPTION_KEY, "AES"), new IvParameterSpec(IV));
+		byte[] input = baos.toByteArray();
+		byte[] output = cipher.doFinal(input);
+
+		// Set up the new state...
+		this.state = PlayerState.fromJSON(this, new String(output, "UTF-8"));
+
+		// ... and throw the player directly into the saved game, by providing the room description.
+		this.state.currentRoom.describe(this);
 	}
 
 
