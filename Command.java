@@ -22,7 +22,7 @@ public abstract class Command {
 	protected String regex;
 
 	public boolean matches(String input) {
-		return (this.regex == null || input.matches("^" + this.regex + "$"));
+		return (this.regex == null || input.matches(this.regex));
 	}
 	public abstract boolean maybePerform(String input, Game game);
 }

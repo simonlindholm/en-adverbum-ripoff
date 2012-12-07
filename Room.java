@@ -23,7 +23,7 @@ public class Room {
 	}
 
 	public void describe(Game game) {
-		// Print with room name with either weird decoration or in bold (both work ok).
+		// Print the room name with either weird decoration or in bold (both work ok).
 		System.out.println();
 		System.out.printf("\033[1m%s\033[0m\n", this.name);
 		System.out.println(this.desc);

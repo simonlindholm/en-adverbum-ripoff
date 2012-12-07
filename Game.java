@@ -28,14 +28,13 @@ public class Game {
 	private boolean shouldExit = false;
 
 	private static class PlayerState {
+		public String currentRoomName;
 		public Room currentRoom;
-		public ArrayList<String> inventory;
 		public int score;
-		public Set<String> wonConditions;
-		public Set<String> globalState, roomState;
+		public Set<String> inventory, wonConditions, globalState, roomState;
 
 		public PlayerState() {
-			this.inventory = new ArrayList<String>();
+			this.inventory = new HashSet<String>();
 			this.wonConditions = new HashSet<String>();
 			this.globalState = new HashSet<String>();
 			this.score = 0;
@@ -57,6 +56,7 @@ public class Game {
 	public void goRoom(String room) {
 		this.state.roomState = new HashSet<String>();
 		this.state.currentRoom = this.rooms.get(room);
+		this.state.currentRoomName = room;
 		this.state.currentRoom.enter(this);
 	}
 
@@ -65,7 +65,7 @@ public class Game {
 
 		for (;;) {
 			String roomKey = roomKeys.get((int)(Math.random() * roomKeys.size()));
-			if (this.rooms.get(roomKey) != this.state.currentRoom) {
+			if (roomKey != this.state.currentRoomName) {
 				goRoom(roomKey);
 				return;
 			}
