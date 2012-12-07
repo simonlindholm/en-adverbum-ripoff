@@ -79,7 +79,7 @@
 			],
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Säg saker!"},
-				{"regex": "(?!s[a-zåäö]*( s[a-zåäö]*)*$).*", "type": "condition", "globalState": "s-error-alt",
+				{"regex": "(?!s[a-zåäö_-]*( s[a-zåäö_-]*)*$).*", "type": "condition", "globalState": "s-error-alt",
 					"otherwise": {"type": "all", "list": [
 						{"type": "msg", "text": "Stopp! Sådant språk! Skriven sträng saknar stil."},
 						{"type": "set-state", "state": "s-error-alt", "global": true, "value": true}
@@ -142,7 +142,7 @@
 			"items": ["ökenväxt"],
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Öh?"},
-				{"regex": "(?!ö[a-zåäö]*( ö[a-zåäö]*)*$).*", "type": "msg", "text": "Öh? Överanvänd ö-ljud, ögonaböj!"},
+				{"regex": "(?!ö[a-zåäö_-]*( ö[a-zåäö_-]*)*$).*", "type": "msg", "text": "Öh? Överanvänd ö-ljud, ögonaböj!"},
 				{"regex": "övertid", "type": "giveup", "to": "base"},
 				{"regex": "överge( öst| ölen| (öl)?[ck]af[ée](e?t)?| örjan)?", "type": "all", "list": [
 					{"type": "go", "to": "base"},
