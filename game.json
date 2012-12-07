@@ -1,5 +1,5 @@
 // TODO
-// spara, ladda, inventory
+// inventory
 {
 	"initialText": "Välkommen till denna anonyma Ad Verbum-rip off.\nFör (det varmt rekommenderade) originalspelet, se http://nickm.com/if/adverbum.html.",
 	"magicText": "\n\"HÖR UPP!\" ljuder en ihålig röst. \"Vet med dig att passage tillbaka är svårt för vissa, omöjligt för andra!\nOm du önskar teleportera dig - utan medhavda föremål - ut från detta stränga fängelse, använd det magiska ordet: %s!\"",
@@ -23,7 +23,10 @@
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Säg något!"},
 				{"regex": "sä[gj] hej", "type": "msg", "text": "Du hälsar artigt."},
-				{"regex": "avsluta|exit", "type": "exit"},
+				{"regex": "avsluta|stopp", "type": "exit"},
+				{"regex": "spara|ladda", "type": "msg", "text": "Ge ett sparningsnamn."},
+				{"regex": "spara (.*)", "type": "save", "group": 1, "success": "Sparat.", "failure": "Misslyckades med att spara. :(", "invalidName": "Ogiltigt sparningsnamn."},
+				{"regex": "ladda (.*)", "type": "load", "group": 1, "notFound": "Sparningen finns inte...", "failure": "Misslyckades med att ladda sparningen.", "invalidName": "Ogiltigt sparningsnamn."},
 				{"regex": "(släpp|överge)( (.*))?", "type": "drop", "group": 3, "success": "Släppt.", "failure": "Släpp vad?"},
 				{"regex": "(tag?|plocka|överta)( (.*))?", "type": "pick", "group": 3, "success": "Tagen.", "failure": "Plocka up vad?"},
 				{"regex": "(undersök|x|kolla|se|ögna)( (.*))?", "type": "examine", "group": 3, "failure": "Undersök vad?"},
@@ -100,6 +103,8 @@
 						{"regex": "(släng|skrota) souvenir", "type": "msg", "text": "Slänga souveniren? Sällan."}
 					]}
 				},
+				{"regex": "spara", "type": "msg", "text": "Skriv sparningsnamnet."},
+				{"regex": "spara (.*)", "type": "save", "group": 1, "success": "Sparat.", "failure": "Sparandet stoppades - systemet svek. :S", "invalidName": "Sparningsnamn symboliskt - skriv svenska."},
 				{"regex": "stick|sjappa", "type": "all", "list": [
 					{"type": "go", "to": "base"},
 					{"type": "win-condition", "name": "out-s", "points": 2}
@@ -107,8 +112,8 @@
 				{"regex": "snacka|språka( sune)?", "type": "msg", "text": "Sune svarar surt: Skarevanåt?"},
 				{"regex": "(se|skåda|syna) sune", "type": "examine", "thing": "sune"},
 				{"regex": "(se|skåda|syna)( (.*))?", "type": "examine", "group": 3, "failure": "Saknar synfält."},
-				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta )?(söderut|sydvart)", "type": "msg", "text": "Solida strukturer stoppas sydligt struttande."},
-				{"regex": "ströva|stick|stappla|spatsera|strosa|strutta", "type": "msg", "text": "Specificera slutpunkt."},
+				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta )?(söderut|sydvart)", "type": "msg", "text": "Solida strukturer stoppar sydligt struttande."},
+				{"regex": "ströva|stappla|spatsera|strosa|strutta", "type": "msg", "text": "Specificera slutpunkt."},
 				{"regex": "sov", "type": "msg", "text": "Sova? Solen skiner! Sedan så saknas säng."},
 				{"type": "condition", "localState": "sitting",
 					"then": {"type": "any", "list": [
