@@ -226,7 +226,8 @@ public class Game {
 
 			this.state = new PlayerState();
 
-			// (Hopefully) clear the screen, and print an introduction.
+			// (Hopefully) clear the screen, and print an introduction. Termcap
+			// detection is too hard to attempt here.
 			System.out.println("\033[2J\033[1;1H");
 			System.out.println(d.initialText);
 			System.out.println("\n---------------");

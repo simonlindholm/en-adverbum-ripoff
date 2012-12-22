@@ -5,9 +5,9 @@ public class Room {
 	@JsonProperty
 	private String name, itemsDesc, magic;
 	@JsonProperty
-	private Command desc;
+	private Command desc, initial;
 	@JsonProperty
-	private ArrayList<Command> initial, commands;
+	private ArrayList<Command> commands;
 	@JsonProperty
 	private ArrayList<String> items;
 
@@ -18,9 +18,7 @@ public class Room {
 		this.describe(game);
 
 		if (this.initial != null) {
-			for (Command c : this.initial) {
-				c.maybePerform("", game);
-			}
+			this.initial.maybePerform("", game);
 		}
 	}
 

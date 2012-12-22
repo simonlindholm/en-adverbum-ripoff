@@ -59,9 +59,7 @@
 			"name": "Teleporterrum",
 			"desc": {"type": "msg", "text": "Du upptäcker ett mysko rum, utan tillbakaledande dörr. Innan du hinner få känslan av att det bara existerar\nsom en ren teknikalitet, försvinner marken under dina fötter och du teleporteras till\n\n...\n"},
 			"itemsDesc": "Föremål: ",
-			"initial": [
-				{"type": "teleport"}
-			],
+			"initial": {"type": "teleport"},
 			"items": [],
 			"commands": []
 		},
@@ -72,14 +70,13 @@
 			"desc": {"type": "msg", "text": "Småskaligt salushus. Samlar skoaffär, sportbutik, snabbköp (samtliga semesterstängda), samt Sunes souvenirstånd.\nSjälvlysande skylt säger: Svenska souvenirer, SEK 79."},
 			"itemsDesc": "Synligt: ",
 			"items": ["souvenir"],
-			"initial": [
-				{"type": "condition", "globalState": "sune-spoke",
-					"otherwise": {"type": "all", "list": [
-						{"type": "msg", "text": "\nSune säger: \"Sjysta souvenirer!\""},
-						{"type": "set-state", "state": "sune-spoke", "global": true, "value": true}
-					]}
-				}
-			],
+			"initial": {
+				"type": "condition", "globalState": "sune-spoke",
+				"otherwise": {"type": "all", "list": [
+					{"type": "msg", "text": "\nSune säger: \"Sjysta souvenirer!\""},
+					{"type": "set-state", "state": "sune-spoke", "global": true, "value": true}
+				]}
+			},
 			"commands": [
 				{"regex": "", "type": "msg", "text": "Säg saker!"},
 				{"regex": "(?!s[a-zåäö_-]*( s[a-zåäö_-]*)*$).*", "type": "condition", "globalState": "s-error-alt",
