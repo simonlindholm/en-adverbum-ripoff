@@ -3,7 +3,9 @@ import java.util.*;
 
 public class Room {
 	@JsonProperty
-	private String name, desc, itemsDesc, magic;
+	private String name, itemsDesc, magic;
+	@JsonProperty
+	private Command desc;
 	@JsonProperty
 	private ArrayList<Command> initial, commands;
 	@JsonProperty
@@ -23,10 +25,10 @@ public class Room {
 	}
 
 	public void describe(Game game) {
-		// Print the room name with either weird decoration or in bold (both work ok).
+		// Try to print the room name in bold.
 		System.out.println();
 		System.out.printf("\033[1m%s\033[0m\n", this.name);
-		System.out.println(this.desc);
+		this.desc.maybePerform("", game);
 		if (!this.items.isEmpty()) {
 			System.out.println();
 			System.out.print(this.itemsDesc);

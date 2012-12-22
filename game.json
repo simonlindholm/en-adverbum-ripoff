@@ -17,7 +17,7 @@
 	"rooms": {
 		"base": {
 			"name": "Mittenrummet",
-			"desc": "Du befinner dig i ett cirkulärt rum i mitten på byggnaden. Det finns dörrar åt tre håll: syd, väst och öst.",
+			"desc": {"type": "msg", "text": "Du befinner dig i ett cirkulärt rum i mitten på byggnaden. Det finns dörrar åt tre håll: syd, väst och öst."},
 			"itemsDesc": "Föremål: ",
 			"items": [],
 			"commands": [
@@ -57,7 +57,7 @@
 
 		"teleport": {
 			"name": "Teleporterrum",
-			"desc": "Du upptäcker ett mysko rum, utan tillbakaledande dörr. Innan du hinner få känslan av att det bara existerar\nsom en ren teknikalitet, försvinner marken under dina fötter och du teleporteras till\n\n...\n",
+			"desc": {"type": "msg", "text": "Du upptäcker ett mysko rum, utan tillbakaledande dörr. Innan du hinner få känslan av att det bara existerar\nsom en ren teknikalitet, försvinner marken under dina fötter och du teleporteras till\n\n...\n"},
 			"itemsDesc": "Föremål: ",
 			"initial": [
 				{"type": "teleport"}
@@ -69,7 +69,7 @@
 		"south": {
 			"magic": "START",
 			"name": "Sydligt salushus",
-			"desc": "Småskaligt salushus. Samlar skoaffär, sportbutik, snabbköp (samtliga semesterstängda), samt Sunes souvenirstånd.\nSjälvlysande skylt säger: Svenska souvenirer, SEK 79.",
+			"desc": {"type": "msg", "text": "Småskaligt salushus. Samlar skoaffär, sportbutik, snabbköp (samtliga semesterstängda), samt Sunes souvenirstånd.\nSjälvlysande skylt säger: Svenska souvenirer, SEK 79."},
 			"itemsDesc": "Synligt: ",
 			"items": ["souvenir"],
 			"initial": [
@@ -143,7 +143,7 @@
 			"magic": "VILSE",
 			"name": "Vansinnig vindsvåning",
 			// XXX really need to change description... :(
-			"desc": "Vitmålad, vanskött vindsvåning. Varierande väsen verkar våldgästa vrån: vålnad, vampyr, vittra. Väckning varnas; vanskligt.",
+			"desc": {"type": "msg", "text": "Vitmålad, vanskött vindsvåning. Varierande väsen verkar våldgästa vrån: vålnad, vampyr, vittra. Väckning varnas; vanskligt."},
 			"itemsDesc": "Vyn visar: ",
 			"items": ["vapen", "växt"],
 			"commands": [
@@ -175,7 +175,7 @@
 		"east": {
 			"magic": "ÖVERTID",
 			"name": "Örjans ölkafé",
-			"desc": "Öronbedövande; övergivna ölglas överallt. Öppettider: öppet ödestimmar, ödesdagar + övrigt.",
+			"desc": {"type": "msg", "text": "Öronbedövande; övergivna ölglas överallt. Öppettider: öppet ödestimmar, ödesdagar + övrigt."},
 			"itemsDesc": "Ögonen ögnar: ",
 			"items": ["ökenväxt"],
 			"commands": [
