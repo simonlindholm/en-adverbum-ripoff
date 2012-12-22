@@ -139,8 +139,10 @@
 		"west": {
 			"magic": "VILSE",
 			"name": "Vansinnig vindsvåning",
-			// XXX really need to change description... :(
-			"desc": {"type": "msg", "text": "Vitmålad, vanskött vindsvåning. Varierande väsen verkar våldgästa vrån: vålnad, vampyr, vittra. Väckning varnas; vanskligt."},
+			"desc": {"type": "condition", "globalState": "vampire-gone",
+				"then": {"type": "msg", "text": "Vitmålad, vanskött vindsvåning. Varierande väsen verkar våldgästa vrån: vålnad, vittra. Väckning varnas; vanskligt."},
+				"otherwise": {"type": "msg", "text": "Vitmålad, vanskött vindsvåning. Varierande väsen verkar våldgästa vrån: vålnad, vampyr, vittra. Väckning varnas; vanskligt."}
+			},
 			"itemsDesc": "Vyn visar: ",
 			"items": ["vapen", "växt"],
 			"commands": [
@@ -151,16 +153,17 @@
 				{"regex": "väsnas", "type": "msg", "text": "Va??? VARFÖR"},
 				{"type": "condition", "globalState": "vampire-gone",
 					"otherwise": {"type": "any", "list": [
-						{"regex": "vattna( växt)?", "type": "all", "list": [
-							{"type": "msg", "text": "Vitlöksväxten växer väldigt; vissnandet väck. Vampyren vittrar vitlöken; väcks, vredgad. Ve! Vitaliteten vacklar visserligen. Vrål viskas; vampyren vitnar. Vindsfönstret, varder värnet."},
+						{"regex": "vattna( växt| vitlök | vitlöksväxt)?", "type": "all", "list": [
+							{"type": "msg", "text": "Vitlöksväxten växer väldigt; vissnandet väck. Vampyren vittrar vitlöken; väcks, vredgad. Ve! Vitaliteten vacklar visserligen.\nVrål viskas; vampyren vitnar. Vindsfönstret, varder värnet."},
 							{"type": "win-condition", "name": "vampire-gone", "points": 3},
 							{"type": "set-state", "state": "vampire-gone", "global": true, "value": true}
+							// XXX remove växt
 						]}
 					]}
 				},
 				{"regex": "viska", "type": "msg", "text": "Viskningen väcker varenda väsen."}, // OH NO
 				{"regex": "visa", "type": "msg", "text": "Vilken? Videvisan? ^^\n(\"vy\")"}, // vaggvisor YEAH
-				{"regex": "(vandra |vallfärda |villa |vackla )?väst(|erut|vart)", "type": "msg", "text": "Varför vandra väst? Västerut väntar väggen."},
+				{"regex": "(vandra |vallfärda |villa |vackla )?väst(|erut|vart)", "type": "msg", "text": "Varför vandra väst? Västerut väntar väggen."}, // also targetless
 				// TODO
 				// vila
 				// väst
