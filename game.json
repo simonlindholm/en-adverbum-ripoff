@@ -7,6 +7,8 @@
 	"items": {
 		"souvenir": {"desc": "Svåridentifierad sak. Skenbart svensk.", "points": 3},
 		"sune": {"desc": "Småsur, sniken souvenirståndsägare.", "points": 0},
+		"vapen": {"desc": "", "points": 0}, // XXX
+		"växt": {"desc": "Vissen vitlöksväxt.", "points": 0},
 		"öl": {"desc": "Örjans Önskeöl™. Öländskt.", "points": 0},
 		"ökenväxt": {"desc": "Ödesdiger ökenväxt. Överdelen ömklig, örtliknande.", "points": 2},
 		"örjan": {"desc": "Öga, öra. Örnnäsa. Ökänd överste.", "points": 0}
@@ -15,7 +17,7 @@
 	"rooms": {
 		"base": {
 			"name": "Mittenrummet",
-			"desc": "Du befinner dig i ett cirkulärt rum i mitten på byggnaden. Det finns dörrar åt två håll: syd och öst.",
+			"desc": "Du befinner dig i ett cirkulärt rum i mitten på byggnaden. Det finns dörrar åt tre håll: syd, väst och öst.",
 			"itemsDesc": "Föremål: ",
 			"items": [],
 			"commands": [
@@ -28,10 +30,10 @@
 				{"regex": "(släpp|överge)( (.*))?", "type": "drop", "group": 3, "success": "Släppt.", "failure": "Släpp vad?"},
 				{"regex": "(tag?|plocka|överta)( (.*))?", "type": "pick", "group": 3, "success": "Tagen.", "failure": "Plocka up vad?"},
 				{"regex": "(undersök|x|kolla|se|ögna)( (.*))?", "type": "examine", "group": 3, "failure": "Undersök vad?"},
-				{"regex": "väst|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?väst(erut|vart)", "type": "msg", "text": "Oimplementerat. :("},
-				{"regex": "öst|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?öst(erut|vart)", "type": "go", "to": "east"},
-				{"regex": "norr|nord|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?nor(rut|dvart)", "type": "msg", "text": "Oimplementerat. :("},
-				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta |gå )?(söderut|sydvart)", "type": "go", "to": "south"},
+				{"regex": "(ströva |stick | stappla |spatsera |strosa |strutta |gå )?väst(|erut|vart)", "type": "go", "to": "west"},
+				{"regex": "(ströva |stick | stappla |spatsera |strosa |strutta |gå )?öst(|erut|vart)", "type": "go", "to": "east"},
+				{"regex": "(ströva |stick | stappla |spatsera |strosa |strutta |gå )?nor(r|d|rut|dvart)", "type": "msg", "text": "Oimplementerat. :("},
+				{"regex": "(ströva |stick | stappla |spatsera |strosa |strutta |gå )?(syd|söder|söderut|sydvart)", "type": "go", "to": "south"},
 				{"type": "condition", "globalState": "beamer-charged",
 					"then": {"type": "any", "list": [
 						{"regex": "ladda beamer", "type": "msg", "text": "Beamern är ömtålig. Överladda den inte!"},
@@ -110,7 +112,7 @@
 				{"regex": "snacka|språka( sune)?", "type": "msg", "text": "Sune svarar surt: Skarevanåt?"},
 				{"regex": "(se|skåda|syna) sune", "type": "examine", "thing": "sune"},
 				{"regex": "(se|skåda|syna)( (.*))?", "type": "examine", "group": 3, "failure": "Saknar synfält."},
-				{"regex": "söder|syd|(ströva |stick | stappla |spatsera |strosa |strutta )?(söderut|sydvart)", "type": "msg", "text": "Solida strukturer stoppar sydligt struttande."},
+				{"regex": "(ströva |stick | stappla |spatsera |strosa |strutta )?(syd|söder|söderut|sydvart)", "type": "msg", "text": "Solida strukturer stoppar sydligt struttande."},
 				{"regex": "ströva|stappla|spatsera|strosa|strutta", "type": "msg", "text": "Specificera slutpunkt."},
 				{"regex": "sov", "type": "msg", "text": "Sova? Solen skiner! Sedan så saknas säng."},
 				{"type": "condition", "localState": "sitting",
@@ -134,6 +136,39 @@
 				{"regex": "(säg|snacka)( .*)?", "type": "msg", "text": "Sällskapet svarar svalt."},
 				{"regex": "start", "type": "giveup", "to": "base"},
 				{"type": "msg", "text": "Saken saknar signifikans. Sorry."}
+			]
+		},
+
+		"west": {
+			"magic": "VILSE",
+			"name": "Vansinnig vindsvåning",
+			// XXX really need to change description... :(
+			"desc": "Vitmålad, vanskött vindsvåning. Varierande väsen verkar våldgästa vrån: vålnad, vampyr, vittra. Väckning varnas; vanskligt.",
+			"itemsDesc": "Vyn visar: ",
+			"items": ["vapen", "växt"],
+			"commands": [
+				// vovve, varg, varulv?
+				{"regex": "", "type": "msg", "text": "Vafalls?"},
+				{"regex": "(?!v[a-zåäö_-]*( v[a-zåäö_-]*)*$).*", "type": "msg", "text": "Va? Vilken vidrig vokabulär! Verbalisera vettigt."}, // vokabel?
+				{"regex": "vilse", "type": "giveup", "to": "base"},
+				{"regex": "väsnas", "type": "msg", "text": "Va??? VARFÖR"},
+				{"type": "condition", "globalState": "vampire-gone",
+					"otherwise": {"type": "any", "list": [
+						{"regex": "vattna( växt)?", "type": "all", "list": [
+							{"type": "msg", "text": "Vitlöksväxten växer väldigt; vissnandet väck. Vampyren vittrar vitlöken; väcks, vredgad. Ve! Vitaliteten vacklar visserligen. Vrål viskas; vampyren vitnar. Vindsfönstret, varder värnet."},
+							{"type": "win-condition", "name": "vampire-gone", "points": 3},
+							{"type": "set-state", "state": "vampire-gone", "global": true, "value": true}
+						]}
+					]}
+				},
+				{"regex": "viska", "type": "msg", "text": "Viskningen väcker varenda väsen."}, // OH NO
+				{"regex": "visa", "type": "msg", "text": "Vilken? Videvisan? ^^\n(\"vy\")"}, // vaggvisor YEAH
+				{"regex": "(vandra |vallfärda |villa |vackla )?väst(|erut|vart)", "type": "msg", "text": "Varför vandra väst? Västerut väntar väggen."},
+				// TODO
+				// vila
+				// väst
+				// also paper thing, and fix room entry item blocking
+				{"type": "msg", "text": "Va? Välj vettiga verb."}
 			]
 		},
 
@@ -161,7 +196,7 @@
 				{"regex": "öst", "type": "msg", "text": "Överge önskedrömmarna - överstens överraskningsfest östvart."},
 				{"regex": "överdriv", "type": "msg", "text": "\"Överdådigt ölkafé; överväldigande Ölandsstil.\""},
 				{"regex": "öppna", "type": "msg", "text": "Öppna... öl? Öl öppen."},
-				{"regex": "översikt", "type": "examine"},
+				{"regex": "över(sikt|blick|syn)", "type": "examine"},
 				{"regex": "överdosera( öl)?", "type": "msg", "text": "Överdosera öl!? Överilat..."},
 				{"type": "msg", "text": "Öh?"}
 			]
