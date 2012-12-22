@@ -8,13 +8,8 @@ public class WinConditionCommand extends SimpleCommand {
 	private int points;
 
 	public void perform(Game game) {
-		assert (this.success == null) == (this.failure == null) :
-			"A win condition must be wholly independent and silent or have both initial and repeat messages.";
-		boolean optional = (this.success == null);
-
-		boolean worked = game.tryWinCondition(this.name);
-		if (worked) {
-			if (optional) {
+		if (game.tryWinCondition(this.name)) {
+			if (this.success == null) {
 				// Print the [+N] as a separate paragraph (it's not related to anything).
 				System.out.println();
 			} else {
@@ -22,7 +17,7 @@ public class WinConditionCommand extends SimpleCommand {
 			}
 			System.out.println("[+" + this.points + "]");
 			game.increaseScore(this.points);
-		} else if (!optional) {
+		} else if (this.failure != null) {
 			System.out.println(this.failure);
 		}
 	}
