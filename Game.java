@@ -126,6 +126,19 @@ public class Game {
 		return true;
 	}
 
+	public boolean tryRemoveItem(String item, boolean fromInventory) {
+		if (fromInventory) {
+			return this.state.inventory.remove(item);
+		} else {
+			if (this.currentRoomHasItem(item)) {
+				this.state.currentRoom.removeItem(item);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
 	public void examineItem(String item) {
 		System.out.println(this.items.get(item).desc);
 	}
