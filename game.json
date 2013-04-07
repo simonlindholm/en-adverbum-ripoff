@@ -133,8 +133,9 @@
 				{"regex": "sucka", "type": "msg", "text": "Suckar sentimentalt."},
 				{"regex": "(säg|snacka)( .*)?", "type": "msg", "text": "Sällskapet svarar svalt."},
 				{"regex": "start", "type": "giveup", "to": "base"},
+				{"regex": "stopp", "type": "exit"},
 				{"type": "msg", "text": "Saken saknar signifikans. Sorry."}
-				// TODO: skratta, svär, saka, soffa, sälj, sura, skaffa stålar
+				// TODO: skratta, svär, saka, soffa, sälj, sura, skaffa stålar, +trailing words
 			]
 		},
 
@@ -188,17 +189,39 @@
 				// lite todo här (vafalls?)
 				{"regex": "viska", "type": "msg", "text": "Viskningen väcker varenda väsen."},
 				{"regex": "väsnas", "type": "msg", "text": "Va??? VARFÖR"},
-				// vråla, vrövla, väck
+				// vråla, väck
+
+				// vigören viker, vokabel
+				{"type": "condition", "globalState": "vampire-gone",
+					"then": {"type": "any", "list": [
+						// TODO
+					]},
+					"otherwise": {"type": "any", "list": [
+						// TODO if värja
+						{"regex": "vrövla|viska|väsnas", "type": "all", "list": [
+							{"type": "msg", "text": "Vårdslöst vrövel väcker väsena. Visserligen väger viktningen vass värja vs. vittrans vasomotorik viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
+							{"type": "exit"}
+						]},
+						{"regex": "väck(| vampyr| vittra| vålnad)", "type": "all", "list": [
+							{"type": "msg", "text": "Varje väsen väcks. Visserligen väger viktningen vass värja vs. vittrans vasomotorik viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
+							{"type": "exit"}
+						]},
+						{"regex": "vråla", "type": "all", "list": [
+							{"type": "msg", "text": "Vrålet vräker vittran villovis; vålnad/vampyr väcks varligare, vresigare. Viktningen vass värja vs. vålnadens vasomotorik väger viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."}, // XXX
+							{"type": "exit"}
+						]}
+					]}
+				},
 
 				{"regex": "vänstra|vänsterprassla", "type": "msg", "text": "Vanheligt vänsterprassel vore ... vidunderligt ... vårdslöst.  (Vidare: voyeurer!)"},
 				{"regex": "visa|vissla|vissla ((vagg)?visa|videvisan)", "type": "msg", "text": "*visslar vackert videvisan*"},
-				{"regex": "visa .*", "type": "msg", "text": "Visa ... vem? Varje val vanvettigt!"},
+				{"regex": "visa .*", "type": "msg", "text": "Visa ... vem? Varje val vore vanvettigt!"},
 				{"regex": "(vandra |vallfärda |villa |vackla )?väst(|erut|vart)", "type": "msg", "text": "Varför vandra väst? Västerut väntar väggen."}, // also targetless
 				{"regex": "(vandra|vallfärda|villa|vackla) vart? vi var", "type": "all", "list": [
 					{"type": "go", "to": "base"},
 					{"type": "win-condition", "name": "out-v", "points": 3}
 				]},
-				{"regex": "vandra|vallfärda|villa|vackla", "type": "msg", "text": "Vart?"}, // vilken väg
+				{"regex": "vandra|vallfärda|villa|vackla", "type": "msg", "text": "Vilken väg?"}, // vart
 				{"regex": "(vandra|vallfärda|villa|vackla|viska|vrid|vänd|viska|vy|väsnas) .*", "type": "msg", "text": "Va? Vilka verbalismer..."}, // add stuff here
 				// TODO
 				// vila
