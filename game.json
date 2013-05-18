@@ -170,7 +170,7 @@
 				{"type": "condition", "localState": "turned",
 					"then": {"type": "any", "list": [
 						{"regex": "(vrid|vänd)( vänster| vanligt)?", "type": "all", "list": [
-							{"type": "msg", "text": "Vänster... Vänster... Varpå: Vanligt vriden!"},
+							{"type": "msg", "text": "Vänster... Vänster... Varpå: vanligt vriden!"},
 							{"type": "set-state", "state": "turned", "global": false, "value": false}
 						]},
 						{"regex": "vandra|vallfärda|villa|vackla", "type": "all", "list": [
@@ -180,54 +180,76 @@
 					]},
 					"otherwise": {"type": "any", "list": [
 						{"regex": "(vrid|vänd)( vänster)?", "type": "all", "list": [
-							{"type": "msg", "text": "Vänster... Vänster... Varpå: Vidvinkelvriden!"},
+							{"type": "msg", "text": "Vänster... Vänster... Varpå: vidvinkelvriden!"},
 							{"type": "set-state", "state": "turned", "global": false, "value": true}
 						]}
 					]}
 				},
 
-				// lite todo här (vafalls?)
-				{"regex": "viska", "type": "msg", "text": "Viskningen väcker varenda väsen."},
-				{"regex": "väsnas", "type": "msg", "text": "Va??? VARFÖR"},
-				// vråla, väck
+				// {"regex": "viska", "type": "msg", "text": "Viskningen väcker varenda väsen."},
+				// {"regex": "väsnas", "type": "msg", "text": "Va??? VARFÖR"},
 
-				// vigören viker, vokabel
+				// vigören viker, vokabel, väsentligen, vafalls
 				{"type": "condition", "globalState": "vampire-gone",
 					"then": {"type": "any", "list": [
 						// TODO
 					]},
 					"otherwise": {"type": "any", "list": [
-						// TODO if värja
-						{"regex": "vrövla|viska|väsnas", "type": "all", "list": [
-							{"type": "msg", "text": "Vårdslöst vrövel väcker väsena. Visserligen väger viktningen vass värja vs. vittrans vasomotorik viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
-							{"type": "exit"}
-						]},
-						{"regex": "väck(| vampyr| vittra| vålnad)", "type": "all", "list": [
-							{"type": "msg", "text": "Varje väsen väcks. Visserligen väger viktningen vass värja vs. vittrans vasomotorik viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
-							{"type": "exit"}
-						]},
-						{"regex": "vråla", "type": "all", "list": [
-							{"type": "msg", "text": "Vrålet vräker vittran villovis; vålnad/vampyr väcks varligare, vresigare. Viktningen vass värja vs. vålnadens vasomotorik väger viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."}, // XXX
-							{"type": "exit"}
-						]}
+						{"type": "condition", "hasItem": "vapen",
+							"then": {"type": "any", "list": [
+								{"regex": "vrövla|viska|väsnas", "type": "all", "list": [
+									{"type": "msg", "text": "Vårdslöst vrövel väcker väsena. Visserligen väger viktningen vass värja vs. vålnadens vasomotorik viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
+									{"type": "exit"}
+								]},
+								{"regex": "väck(| vampyr| vittra| vålnad)", "type": "all", "list": [
+									{"type": "msg", "text": "Varje väsen väcks. Visserligen väger viktningen vass värja vs. vålnadens vasomotorik viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
+									{"type": "exit"}
+								]},
+								{"regex": "vråla", "type": "all", "list": [
+									{"type": "msg", "text": "Vrålet vräker vittran villovis; vålnad/vampyr väcks varligare, vresigare. Viktningen vass värja vs. vålnadens vasomotorik väger viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
+									{"type": "exit"}
+								]}
+							]},
+							"otherwise": {"type": "any", "list": [
+								{"regex": "vrövla|viska|väsnas", "type": "all", "list": [
+									{"type": "msg", "text": "Vårdslöst vrövel väcker väsena. Vafan väntade vi\n\n oss. Du är död, och rekommenderas ha sparat."},
+									{"type": "exit"}
+								]},
+								{"regex": "väck(| vampyr| vittra| vålnad)", "type": "all", "list": [
+									{"type": "msg", "text": "... Verkligen. Vad var vitsen?\n\nDu är död, och jag hoppas du sparade."},
+									{"type": "exit"}
+								]},
+								{"regex": "vråla", "type": "all", "list": [
+									{"type": "msg", "text": "Visserligen vräker vrålet vittran villovis; vålnad/vampyr vederlägger vår vitalitet.\n\nDu är död, och rekommenderas ha sparat."},
+									{"type": "exit"}
+								]}
+							]}
+						}
 					]}
 				},
 
 				{"regex": "vänstra|vänsterprassla", "type": "msg", "text": "Vanheligt vänsterprassel vore ... vidunderligt ... vårdslöst.  (Vidare: voyeurer!)"},
 				{"regex": "visa|vissla|vissla ((vagg)?visa|videvisan)", "type": "msg", "text": "*visslar vackert videvisan*"},
 				{"regex": "visa .*", "type": "msg", "text": "Visa ... vem? Varje val vore vanvettigt!"},
-				{"regex": "(vandra |vallfärda |villa |vackla )?väst(|erut|vart)", "type": "msg", "text": "Varför vandra väst? Västerut väntar väggen."}, // also targetless
+				{"regex": "(vandra |vallfärda |villa |vackla )?väst(|erut|vart)", "type": "msg", "text": "Varför vandra väst? Västerut väntar väggen."},
 				{"regex": "(vandra|vallfärda|villa|vackla) vart? vi var", "type": "all", "list": [
 					{"type": "go", "to": "base"},
 					{"type": "win-condition", "name": "out-v", "points": 3}
 				]},
+				{"type": "condition", "roomHasItem": "vapen",
+					{"regex": "väpna", "type": "pick", "thing": "vapen",
+						"success": "Vacker vapendragning!",
+						"failure": "<not seen>"
+					}
+				},
+				// {"regex": "vila", "type": "msg", "text": "Vafalls! Vilostunder vankas varstans."}, // TODO
 				{"regex": "vandra|vallfärda|villa|vackla", "type": "msg", "text": "Vilken väg?"}, // vart
-				{"regex": "(vandra|vallfärda|villa|vackla|viska|vrid|vänd|viska|vy|väsnas) .*", "type": "msg", "text": "Va? Vilka verbalismer..."}, // add stuff here
+				{"regex": "(vandra|vallfärda|villa|vackla|viska|vrid|vänd|viska|vy|väsnas|vråla|vrövla|väck|väpna) .*", "type": "msg", "text": "Va? Vilka verbalismer..."}, // add stuff here
 				// TODO
 				// vila
-				// väpna
 				// välj
 				// also paper things, and fix room entry item blocking
+// Targetted?
 				{"type": "msg", "text": "Va? Välj vettiga verb."}
 			]
 		},
