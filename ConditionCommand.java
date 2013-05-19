@@ -5,11 +5,14 @@ public class ConditionCommand extends Command {
 	@JsonProperty
 	private Command then, otherwise;
 	@JsonProperty
-	private String roomHasItem;
+	private String roomHasItem, hasItem;
 	@JsonProperty
 	private String globalState, localState;
 
 	private Command decide(Game game) {
+		if (this.hasItem != null && !game.inventoryHasItem(this.hasItem)) {
+			return otherwise;
+		}
 		if (this.roomHasItem != null && !game.currentRoomHasItem(this.roomHasItem)) {
 			return otherwise;
 		}
