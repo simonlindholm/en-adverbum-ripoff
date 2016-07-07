@@ -176,7 +176,7 @@
 							{"type": "msg", "text": "Vänster... Vänster... Varpå: vanligt vriden!"},
 							{"type": "set-state", "state": "turned", "global": false, "value": false}
 						]},
-						{"regex": "vandra|vallfärda|villa|vackla", "type": "all", "list": [
+						{"regex": "vingla|vandra|vallfärda|villa|vackla", "type": "all", "list": [
 							{"type": "go", "to": "base"},
 							{"type": "win-condition", "name": "out-v", "points": 3}
 						]}
@@ -273,13 +273,13 @@
 					]}
 				},
 				{"regex": "visa|vissla|vissla ((vagg)?visa|videvisan)", "type": "msg", "text": "*visslar vackert videvisan*"},
-				{"regex": "(vandra |vallfärda |villa |vackla )?väst(|erut|vart)", "type": "msg", "text": "Varför vandra väst? Västerut väntar väggen."},
+				{"regex": "(vingla |vandra |vallfärda |villa |vackla )?väst(|erut|vart)", "type": "msg", "text": "Varför vandra väst? Västerut väntar väggen."},
 				{"regex": "(vingla|vandra|vallfärda|villa|vackla) vart? vi var", "type": "all", "list": [
 					{"type": "go", "to": "base"},
 					{"type": "win-condition", "name": "out-v", "points": 3}
 				]},
 				{"type": "condition", "roomHasItem": "vapen",
-					"then": {"regex": "väpna", "type": "pick", "thing": "vapen",
+					"then": {"regex": "väpna|välj vapen", "type": "pick", "thing": "vapen",
 						"success": "Voilà! Vacker vapendragning!",
 						"failure": "<not seen>"
 					}
@@ -287,7 +287,7 @@
 				// {"regex": "vila", "type": "msg", "text": "Vafalls! Vilostunder vankas varstans."}, // TODO
 				{"regex": "väg", "type": "msg", "text": "Vågen väger vår vågsvägande våg - verkligt virrvarr."},
 				{"regex": "vandra|vallfärda|villa|vackla", "type": "msg", "text": "Vilken väg?"}, // vart
-				{"regex": "(vandra|vallfärda|villa|vackla|viska|vrid|vänd|viska|vy|väsnas|vråla|vrövla|väck|väpna|väg) .*", "type": "msg", "text": "Va? Vilka verbalismer..."}, // add stuff here
+				{"regex": "(vingla|vandra|vallfärda|villa|vackla|viska|vrid|vänd|viska|vy|väsnas|vråla|vrövla|väck|väpna|väg) .*", "type": "msg", "text": "Va? Vilka verbalismer..."}, // add stuff here
 				// TODO
 				// vila
 				// välj
@@ -321,9 +321,9 @@
 				{"regex": "överge (.*)", "type": "drop", "group": 1, "success": "Övergiven.", "failure": "Öhmm?"},
 				{"regex": "öla( öl)?", "type": "win-condition", "name": "ölat", "points": 3, "success": "Överstökat.", "failure": "Överflödig ölning."},
 				{"regex": "öst", "type": "msg", "text": "Överge önskedrömmarna - överstens överraskningsfest östvart."},
-				{"regex": "överdriv", "type": "msg", "text": "\"Överdådigt ölkafé; överväldigande Ölandsstil.\""},
+				{"regex": "överdriv", "type": "msg", "text": "\"Överväldigande ölkafé; överdådig Ölandsstil.\""}, // överlägset
 				{"regex": "öppna", "type": "msg", "text": "Öppna... öl? Öl öppen."},
-				{"regex": "över(sikt|blick|syn|se)", "type": "examine"},
+				{"regex": "över(skåda|sikt|blick|syn|se)|ögna", "type": "examine"},
 				{"regex": "överdosera( öl)?", "type": "msg", "text": "Överdosera öl!? Överilat..."},
 				{"regex": "ös( öl)?", "type": "msg", "text": "Ösa öl överallt? Öh... Överväg övlig ömsinthet."},
 				// (Överskattat Örjans överseende?)
