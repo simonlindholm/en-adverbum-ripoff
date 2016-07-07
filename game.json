@@ -30,6 +30,7 @@
 				{"regex": "(släpp|överge)( (.*))?", "type": "drop", "group": 3, "success": "Släppt.", "failure": "Släpp vad?"},
 				{"regex": "(tag?|plocka|överta)( (.*))?", "type": "pick", "group": 3, "success": "Tagen.", "failure": "Plocka up vad?"},
 				{"regex": "(undersök|x|kolla|se|ögna)( (.*))?", "type": "examine", "group": 3, "failure": "Undersök vad?"},
+				// TODO: room entry item blocking
 				{"regex": "(ströva |stick | stappla |spatsera |strosa |strutta |gå )?väst(|erut|vart)", "type": "go", "to": "west"},
 				{"regex": "(ströva |stick | stappla |spatsera |strosa |strutta |gå )?öst(|erut|vart)", "type": "go", "to": "east"},
 				{"regex": "(ströva |stick | stappla |spatsera |strosa |strutta |gå )?nor(r|d|rut|dvart)", "type": "msg", "text": "Oimplementerat. :("},
@@ -136,6 +137,11 @@
 				{"regex": "stopp", "type": "exit"},
 				{"type": "msg", "text": "Saken saknar signifikans. Sorry."}
 				// TODO: skratta, svär, saka, soffa, sälj, sura, skaffa stålar, +trailing words
+				// List of words:
+				// sakna, sämre, som sagt, somliga saker, samling, segla, således, så sorgligt,
+				// solklart, strålande sol, 'sup, stiligt, seriöst, symmetri, strängar som startar,
+				// syftningsfel, säg? systematiskt, sakligt, stil, stila, sök, skälv, stör, stöka,
+				// spela, såklart, solipsism, situation, sjaskig, sillmjölke, sargad, softa
 			]
 		},
 
@@ -144,7 +150,7 @@
 			"name": "Vansinnig vindsvåning",
 			"desc": {"type": "condition", "globalState": "vampire-gone",
 				"then": {"type": "condition", "globalState": "v-done",
-					"then": {"type": "msg", "text": "Vitmålad, vanskött vindsvåning. Vidunderligt vilsam."},
+					"then": {"type": "msg", "text": "Vitmålad, vanskött vindsvåning. Vidunderligt vilsam."}, // vakant
 					"otherwise": {"type": "msg", "text": "Vitmålad, vanskött vindsvåning. Varierande väsen verkar våldgästa vrån: vålnad, vittra. Väckning varnas; vanskligt."}
 				},
 				"otherwise": {"type": "msg", "text": "Vitmålad, vanskött vindsvåning. Varierande väsen verkar våldgästa vrån: vålnad, vampyr, vittra. Väckning varnas; vanskligt."}
@@ -291,13 +297,59 @@
 				// TODO
 				// vila
 				// välj
-				// also paper things, and fix room entry item blocking
-// Targetted?
+				// väsnas, vänstra etc. when noops
+				// vinn -> "Vinn vad? VM? Världscupen?"
+
+				// List of words:
+				// vad, var, vägg vägrar vika, viktig, verkligen, väg, vissla,
+				// valfri, visserligen, vill vi vekligen, vid, visa, vänd, vrid,
+				// varifrån vi, viska, volym, väl vald, vilken väg, vriden vinkelrätt,
+				// vertikalt, vägg, vankas, vitalt, viskningar, vila världsvant,
+				// världslig, vidskeplig, varför, vadå, vyn visar: våran våg,
+				// vakt, validera, vanhelga, vandalisera, vansinne, varenda,
+				// vardags-, variabel, varsebli, varv, vafalls,
+				// vidunderlig, vrå, vålnader, väpnade, vampyr, vacker,
+				// vansinnig, väsen, vidskeplig, vanvettig, vrål, vresig
+				// vanskapt, vapensköld, viskning, vanvårdad, våldgästa,
+				// vårdslös, väcka, väggfast, väckarklocka, välpolerad väggspegel,
+				// vetenskap, varna, vargtimme, vaken, väsnas, var varlig,
+				// vanlig, vävnad, välva, vördnadsbjudnande, Vogon, varsebli,
+				// varelse, vanslött, varsel, vrickad,
+				// vapen, väpna, vaknar vanligen vargtimmar (väckning varnas),
+				// vänder VVVVVV-vis, vertikalt, vertikal vinkel/vridning, vänster+vänster,
+				// vasst vikingavapen (verkar vara),
+				// verbosifiera, vägvisare, vital, våga vägra, vitterhet, voodoo, vice versa,
+				// visavi, vendetta,
+				// vision, visit, veta, viss, vitlackerat vitvinsskåp, vitglödgad vrede,
+				// vrålhungrig, vägled, väja, väkt, var välan, vifta,
+				// vitvaxad, vaxblek, vase, varsin, varsågod, varefter, varsam,
+				// vederdeloman, vederbörande, vederfaras, vederfås, vederhäftig,
+				// vedergällning, vederkvicka, vederlike, vedermåle, vedermöda,
+				// vederpart, vedervilja, vederstygglig, vedervärdig, vedersakare
+				// varjehanda, valhänt, vad-/vemsomhelst, vidimera, vinden viner
+				// vulgär, vedervärdig, vederstygglig, vidrig, vämjelig, vanvärdig
+				// växter: vitlök, vejde, venushår, venussko, ven, verbena, vete, veronika,
+				// vidja, vicker, vial, vildros, vinbär, viol, vintergröna, vintergäck, vedel
+
 				{"type": "msg", "text": "Va? Välj vettiga verb."}
 			]
 		},
 
-		// "north": norpa, navigera nedåt, nyttja nödutgång
+		"north": {
+			"magic": "NY",
+			"name": "",
+			"desc": {"type": "msg", "text": ""},
+			"itemsDesc": "Noteras: ",
+			"items": [],
+			"commands": [
+				// TODO: norpa, navigera nedåt|negativt, nyttja nödutgång
+				// List of words:
+				// någonstans, någonting, nedrans! något nekar? nej, novis,
+				// noggrannare, nästan, når, när, norm, närd, notera, nämn,
+				// ny, nästa, nu, nån/någon, någotsånär
+				{"type": "msg", "text": ""} // Nomenklatur
+			]
+		},
 
 		"east": {
 			"magic": "ÖVERTID",
@@ -327,6 +379,10 @@
 				{"regex": "överdosera( öl)?", "type": "msg", "text": "Överdosera öl!? Överilat..."},
 				{"regex": "ös( öl)?", "type": "msg", "text": "Ösa öl överallt? Öh... Överväg övlig ömsinthet."},
 				// (Överskattat Örjans överseende?)
+				// List of words:
+				// ömtålig, öppning, ömsesidig, öka, öm, örfila, överrenskommelse, övning, öda,
+				// översätt, örla (vimsa), överarbeta, -ansträng, -betona, överväldigande, övervägande
+				// överlag, överskådlig, översikt, öppningsceremoni, öhöhö, östasiatisk, ömsom
 				{"type": "msg", "text": "Öh?"}
 			]
 		}
