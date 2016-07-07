@@ -51,7 +51,7 @@
 					]}
 				},
 				{"regex": "teleportera", "type": "go", "to": "teleport"},
-				{"regex": "xyzzy", "type": "win-condition", "name": "xyzzy", "points": 1}, // try this
+				{"regex": "xyzzy", "type": "win-condition", "name": "xyzzy", "points": 1},
 				{"type": "msg", "text": "Jag förstår inte."}
 			]
 		},
@@ -103,7 +103,7 @@
 				},
 				{"regex": "spara", "type": "msg", "text": "Skriv sparningsnamnet."},
 				{"regex": "spara (.*)", "type": "save", "group": 1, "success": "Sparat.", "failure": "Sparandet stoppades - systemet svek. :S", "invalidName": "Sparningsnamn symboliskt - skriv svenska."},
-				{"regex": "stick|sjappa", "type": "all", "list": [
+				{"regex": "stick|sjappa|smit", "type": "all", "list": [
 					{"type": "go", "to": "base"},
 					{"type": "win-condition", "name": "out-s", "points": 2}
 				]},
@@ -206,12 +206,26 @@
 								{"regex": "vråla", "type": "all", "list": [
 									{"type": "msg", "text": "Vrålet vräker vittran villovis; vålnaden väcks, varligare. Vi viftar varsamt värjan. Vålnaden, vår vedersakare, vrålar vansinnigt. Våldsamt vacklar varelsen vår väg!\n\n... vilket vi väjer. Vår värja visar vålnaden vitvarans vilostad."},
 									{"type": "win-condition", "name": "v-done", "points": 7},
-									{"type": "set-state", "state": "v-done", "global": true, "value": true},
-									{"type": "exit"}
+									{"type": "set-state", "state": "v-done", "global": true, "value": true}
 								]}
 							]},
 							"otherwise": {"type": "any", "list": [
 								// TODO
+								// Possible to reuse freely from:
+								/*
+								{"regex": "vrövla|viska|väsnas", "type": "all", "list": [
+									{"type": "msg", "text": "Vårdslöst vrövel väcker väsena. Visserligen väger viktningen vass värja vs. vålnadens vasomotorik viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
+									{"type": "exit"}
+								]},
+								{"regex": "väck(| vampyr| vittra| vålnad)", "type": "all", "list": [
+									{"type": "msg", "text": "Varje väsen väcks. Visserligen väger viktningen vass värja vs. vålnadens vasomotorik viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
+									{"type": "exit"}
+								]},
+								{"regex": "vråla", "type": "all", "list": [
+									{"type": "msg", "text": "Vrålet vräker vittran villovis; vålnad/vampyr väcks varligare, vresigare. Viktningen vass värja vs. vålnadens vasomotorik väger viktorians väg ... vampyren vs. våran väger\n\n... annorlunda. Du är död, och rekommenderas ha sparat."},
+									{"type": "exit"}
+								]}
+								*/
 							]}
 						}
 					]},
@@ -283,6 +297,8 @@
 			]
 		},
 
+		// "north": norpa, navigera nedåt, nyttja nödutgång
+
 		"east": {
 			"magic": "ÖVERTID",
 			"name": "Örjans ölkafé",
@@ -307,8 +323,10 @@
 				{"regex": "öst", "type": "msg", "text": "Överge önskedrömmarna - överstens överraskningsfest östvart."},
 				{"regex": "överdriv", "type": "msg", "text": "\"Överdådigt ölkafé; överväldigande Ölandsstil.\""},
 				{"regex": "öppna", "type": "msg", "text": "Öppna... öl? Öl öppen."},
-				{"regex": "över(sikt|blick|syn)", "type": "examine"},
+				{"regex": "över(sikt|blick|syn|se)", "type": "examine"},
 				{"regex": "överdosera( öl)?", "type": "msg", "text": "Överdosera öl!? Överilat..."},
+				{"regex": "ös( öl)?", "type": "msg", "text": "Ösa öl överallt? Öh... Överväg övlig ömsinthet."},
+				// (Överskattat Örjans överseende?)
 				{"type": "msg", "text": "Öh?"}
 			]
 		}
